@@ -1,0 +1,103 @@
+*, *::before,* ::after{
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body{
+    padding: 0;
+    margin: 0;
+    background: #fffdfa;
+}
+
+.addProduct {
+   
+    min-height: 20vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.addProduct form{
+   
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 15px rgb(0 0 0 / 20%);
+    width: 400px;
+    height: 300px;
+}
+
+.addProduct ul{
+    display: inline-block;
+    line-height: 2px;
+
+}
+.addProduct input{
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+.addProduct input[type ="text"],input[type="number"], input[type = "file"]{
+    border: none;
+    border-bottom: 1px solid #230bfb;
+    background: transparent;
+    background-color: #F5F5F5;
+    outline: none;
+    height: 35px;
+    border-radius: 0px;
+    
+    color:#252324;
+    font-size: 15px;
+
+}
+
+
+.addProduct input[type="submit"]{
+   
+    border-color:#2e2bd8 ;
+    outline: none;
+    height: 30px;
+    background: #2e2bd8;
+    color: #fff;
+    font-size: 15px;
+    border-radius:10px ;
+    
+}
+.addProduct input[type="submit"]:hover{
+    cursor: pointer;
+    background:#fff;
+    transition-duration:0.3s;
+    color: #000;
+}
+.addProduct input[type="text"]:hover{
+    cursor: pointer;
+    background:	whitesmoke;
+    transition-duration:0.3s;
+    color: #000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:991px){
+    html{
+        font-size: 55%;
+    }
+}
+@media(max-width:450px){
+    html{
+        font-size: 50%;
+    }
+}

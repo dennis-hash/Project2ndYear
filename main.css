@@ -1,0 +1,77 @@
+*, *::before,* ::after{
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    background: #fffdfa;
+}
+header{
+   
+    background-color:#FFFDFA;
+    display: flex;
+    justify-content: flex-end;
+    align-items:center ;
+    padding:15px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+ img{
+    height: 100%;
+    width: 20px;
+    margin-right: auto;
+   
+ }
+ 
+.navlinks li{
+    display: inline-block;
+    list-style: none;
+    text-decoration: none;
+    border-radius: 10px;
+    padding:0px 10px;
+    text-decoration: none; 
+}
+
+.navlinks a{
+    padding-left:0px ;
+    font-size: 15px;
+    text-decoration: none;
+    
+}
+.sidebar{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: calc(100vh - 60px);
+    padding:0 5px ;
+    background-color: #1b1b1b;   
+}
+.sidebar ul{
+    padding-top:10px;
+    overflow: hidden;
+    visibility: hidden;
+}
+.sidebar ul span{
+    display: block;
+    height: 60px;
+    padding: 0 5px;
+    text-decoration: none;
+}
+.sidebar ul li{
+    line-height: 60px;
+    list-style: none;
+}
+.sidebar ul li a{
+     display: block;
+     height: 60px;
+     padding: 0 5px;
+     text-decoration: none;
+     font-size: 16px;
+     white-space:nowrap;
+     
+}
+.sidebar :hover{
+    background-color:#222 ;
+}
