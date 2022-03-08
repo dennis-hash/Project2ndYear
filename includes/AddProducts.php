@@ -2,14 +2,15 @@
 if(isset($_POST['add'])){
     $productName = $_POST['product_name'];
     $productPrice = $_POST['product_price'];
-    $image = $_FILES['product_image'];
+    //$img = $_FILES['image']['name'];
 
-   
     include "../classes/dbConnect.class.php";
     include "../classes/products.classes.php";
     include "../classes/productsController.php";
 
-    $this -> uploadProduct($productName, $productPrice, $image);
+   $uploadProduct = new productController($productName, $productPrice, $_FILES);
+   $uploadProduct->uploadProducts();
+
 }
       
 	
@@ -28,14 +29,14 @@ if(isset($_POST['add'])){
         <h3>Admin Panel </h3>
     </header>
     <div class="addProduct">
-        <form  action="" method="POST" enctype="multipart/form-data">
+        <form  action="AddProducts.php" method="post" enctype="multipart/form-data">
           <ul>
             <p>Product name</p>
             <input type="text" placeholder="Product name" name="product_name">
             <p>Price</p>
             <input type="number" placeholder="Product price" name="product_price">
-            <p>Upload image</p>
-            <input type="file" name="product_image">
+            <p>Upload</p>
+            <input type="file" name='image'>
             <input type="submit" name="add" value="ADD">
             </ul>
         </form>

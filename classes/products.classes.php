@@ -1,30 +1,40 @@
 <?php
 class upload extends db{
     
-    protected function uploadProduct($prodName, $prodPrice, $image){
-    $result = $this->connect();
+    protected function uploads($prodName, $prodPrice, $image){
+        //'image'= $_FILES['image'];
+        $file_name = $_FILES['image']['name'];
+        $fileTmpName = $_FILES['image']['tmp_name'];
+        $file_size = $_FILES['image']['size'];
+        $file_error = $_FILES['image']['error'];
+        $file_type = $_FILES['image']['type'];
 
-    if (($_FILES[$image]['name']!="")){
-    // Where the file is going to be stored
-    $file_name = $_FILES[$image]['name'];
-        $target_dir = "upload/";
-        $file = $_FILES[$image]['name'];
-        $path = pathinfo($file);
-        $filename = $path['filename'];
-        $ext = $path['extension'];
-        $temp_name = $_FILES[$image]['tmp_name'];
-        $path_filename_ext = $target_dir.$filename.".".$ext;
-        
-        
-        
-        // Check if file already exists
-        if (file_exists($path_filename_ext)) {
-            echo "Sorry, file already exists.";
+       $fileExt = explode('.',$file_name);
+        $fileActualExt = strtolower(end($fileExt));
+
+        $allowed = array('jpeg', 'jpg', 'png');
+	
+
+	
+      if(in_array($fileActualExt, $allowed)){
+      echo "in_array executed";
+           if($file_error === 0){
+                if($file_size < 1000000){
+                    $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+                    $fileDestination = 'uploads/'. $fileNameNew;
+                    //header("Location: adminPage.php?uploadSuccess");
+
+                    move_uploaded_file($fileTmpName, $fileDestination );
+                }
+                else{
+                    echo "file too big";
+                }
+            }else{
+                echo "error uploading file";
+            }
         }else{
-            move_uploaded_file($temp_name,$path_filename_ext);
-            echo "Congratulations! File Uploaded Successfully.";
-        }
-         
+            echo "this file type is not accepted";
+        } 
+    
     }
-}
 }

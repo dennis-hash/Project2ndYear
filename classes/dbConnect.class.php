@@ -2,7 +2,7 @@
 class db{
    
     protected function connect(){
-        global  $connectdb;
+        /*global  $connectdb;
         $dbhost = 'localhost';
         $dbname = 'projectDB';
         $dbuser = 'dennis';
@@ -21,6 +21,6 @@ class db{
         $results = $connectdb ->query($query);
         if (!$results) echo mysqli_error($connectdb);
        
-        return $results;
+        return $results;*/
     }
 }
