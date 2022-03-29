@@ -19,27 +19,28 @@
 <body>
 
     <header>
-       
-        <img src="images/menu.svg" alt="" onclick="toggleNav()">
+    <div class="navlinks">
+        <img src="../images/menu.svg" alt="" onclick="toggleNav()">
         
-        <div class="navlinks">
+        
             <?php
                 if($loggedin){
              
-                echo<<< _LOGGEDIN
+                echo<<< _INIT
                 "<li><a href="#">$user</a></li>
-                <li><a href="includes/AddProducts.php">My Acount</a></li>
+                <li><a href="myAccount.php">My Acount</a></li>
                 <li><a href="#">Cart</a></li>
-                <li><a href="includes/logout.php">Logout</a></li>
-               _LOGGEDIN;
+                <li><a href="logout.php">Logout</a></li>
+               _INIT;
                 }
                 else{
         
             echo <<< _END
-                <li><a href="includes/singup.php">Register</a></li>
-                <li><a href="includes/AddProducts.php">My Acount</a></li>
+                <li><a href="singup.php">Register</a></li>
+                <li><a href="login.php">Login</a></li>
                 <li><a href="#">Cart</a></li>
-                <li><a href="includes/login.php">Login</a></li>
+                <li><a href="myAccount.php">My Acount</a></li>
+                
                 _END;
                 }
             ?>
@@ -51,7 +52,7 @@
         <ul>
             <li><span>Categories</span></li>
             <li><a href="#">Fruits</a></li>
-            <li><a href="Register.php">Vegetables</a></li>
+            <li><a href="Register.php">Vegitables</a></li>
             <li><a href="records.php">Records</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Contacts</a></li>
@@ -69,5 +70,5 @@
             <li><a href="#">Contacts</a></li>
     </div>-->
 </body>
-<script src="/main.js"></script> 
+<script src="main.js"></script> 
 </html>

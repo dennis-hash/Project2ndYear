@@ -37,14 +37,14 @@ if(isset($_POST['submit'])){
             <h1 class="g">Create account</h1>
             
             <form action="singup.php" method = "POST">
-                <p>Enter username</p>
-                <input type="text" name="user" placeholder="Enter Username">
+                <p>Username</p>
+                <input type="text" name="user" placeholder="Username">
                 <p>Email address</p>
-                <input type="text" name="email"  placeholder="email">
+                <input type="text" name="email"  placeholder="Email">
                 <p>Phone number</p>
-                <input type="text" name="phone"  placeholder="phone number">
+                <input type="text" name="phone"  placeholder="Phone number">
                 <p>Create password</p>
-                <input type="password" name="pass"  placeholder="Create password">
+                <input type="password" name="pass"  placeholder="Password">
                 <p>Confirm pasword</p>
                 <input type="password" name="confpass"  placeholder="Confirm password">
                 <input type="submit" name="submit" placeholder="create account" value="Create account">

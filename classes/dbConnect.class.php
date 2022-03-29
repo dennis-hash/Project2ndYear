@@ -1,8 +1,8 @@
 <?php
-class db{
+class DB{
    
     protected function connect(){
-        /*global  $connectdb;
+        global  $connectdb;
         $dbhost = 'localhost';
         $dbname = 'projectDB';
         $dbuser = 'dennis';
@@ -11,8 +11,7 @@ class db{
        
        $connectdb = new mysqli( $dbhost, $dbuser, $dbpass, $dbname);
         if($connectdb -> connect_error) die(" Unable to connect to Database");
-        else{echo "connected to database";}
-        
+       
        return $connectdb;
     }
 
@@ -20,7 +19,6 @@ class db{
         global $connectdb;
         $results = $connectdb ->query($query);
         if (!$results) echo mysqli_error($connectdb);
-       
-        return $results;*/
+        return $results;
     }
 }

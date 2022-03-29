@@ -1,5 +1,5 @@
 *, *::before,* ::after{
-    box-sizing: border-box;
+   
     font-family: sans-serif;
 }
 
@@ -9,7 +9,11 @@ body{
     background: #fffdfa;
 }
 header{
-   
+    position: fixed;
+    width: 100%;
+}
+.navlinks{
+    
     background-color:#FFFDFA;
     display: flex;
     justify-content: flex-end;
@@ -17,12 +21,13 @@ header{
     padding:15px;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
- img{
+.navlinks img{
     height: 100%;
     width: 20px;
     margin-right: auto;
    
  }
+ 
  
 .navlinks li{
     display: inline-block;
@@ -74,4 +79,15 @@ header{
 }
 .sidebar :hover{
     background-color:#222 ;
+}
+
+@media(max-width:991px){
+    html{
+        font-size: 55%;
+    }
+}
+@media(max-width:450px){
+    html{
+        font-size: 50%;
+    }
 }

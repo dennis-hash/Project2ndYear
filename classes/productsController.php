@@ -1,5 +1,5 @@
 <?php
-class productController extends upload{
+class productController extends Upload{
     private $prodName;
     private $prodPrice;
     private $prodImage;
@@ -33,9 +33,10 @@ class productController extends upload{
            header("location: AddProducts.php?error=emptyInputs");
            exit();
         }
-        echo "heyy!!";
-        $this->uploads($this->prodName, $this->prodPrice, $this->prodImage);
-        
+       $uploadAndDisplay = new Upload($this->prodName,$this->prodPrice,$this->prodImage);
+       $uploadAndDisplay->uploads();
+       //$uploadAndDisplay->displayProducts();
+
     }
 
 }

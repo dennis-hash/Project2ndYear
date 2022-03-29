@@ -124,7 +124,7 @@ h1:before, h1:after {
 .box h1 {
     margin-top:10px;
     display:flex;
-    font-size: 10px;
+    font-size: 13px;
     color: gray;
   }
 .box h1:before, h1:after {

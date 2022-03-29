@@ -1,7 +1,7 @@
 let toggleStatus = false;
 //function to tell css to broaden the width of the side bar
 let toggleNav = function() {
-    console.log("hello");
+    
      let getSidebar = document.querySelector(".sidebar");
      let getSidebarUl = document.querySelector(".sidebar ul");
      let getSidebarTitle = document.querySelector(".sidebar span");
@@ -30,3 +30,4 @@ let toggleNav = function() {
         toggleStatus = false;
     }
 }
+

@@ -15,7 +15,7 @@ class signup extends db{
         //referencing to the connect method in db class
         $result = $this->connect();
          //referencing to the queryMysql method in db class
-        $this->queryMysql("INSERT INTO users VALUES(1,'$userName','$phone','$email', '$passWord'); ");
+        $this->queryMysql("INSERT INTO users VALUES(NULL,'$userName','$phone','$email', '$passWord'); ");
         die('Account Created');
     }
 
