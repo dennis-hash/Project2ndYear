@@ -1,7 +1,7 @@
 <?php
-class DB{
+
    
-    protected function connect(){
+    /*protected function connect(){
         global  $connectdb;
         $dbhost = 'localhost';
         $dbname = 'projectDB';
@@ -20,5 +20,25 @@ class DB{
         $results = $connectdb ->query($query);
         if (!$results) echo mysqli_error($connectdb);
         return $results;
+    }*/
+class DB{
+    private $host = "localhost";
+    private $db_name = "projectDB";
+    private $username = "dennis";
+    private $password = "12414-Denn!s";
+    public $conn;
+    //db connection
+    public function dbConnection(){
+        $this->conn = null;
+        try{
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }catch(PDOException $exception){
+            echo "Connection error: " . $exception->getMessage();
+        }
+        return $this->conn;
     }
 }
+
+
+

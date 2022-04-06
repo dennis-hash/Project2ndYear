@@ -48,7 +48,7 @@ class Upload extends DB{
                         $src = imagecreatefrompng($filePath);
                         //echo "half way done!1";
                         list($w, $h) = getimagesize($filePath);
-                        $max = 250;
+                        $max = 300;
                         $tw = $w;
                         $th = $h;
                         //echo "half way done!2";

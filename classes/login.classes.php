@@ -1,11 +1,19 @@
 <?php
 class Login extends DB{
-    protected function getUser($userName, $passWord){ 
-        $connect = $this->connect();
-
-        $results = $this->queryMysql("SELECT username,password FROM users WHERE username = '$userName' AND password = '$passWord';");
+    public function __construct()
+    {
         
-        if($results->num_rows == 0){
+    }
+    protected function getUser($userName, $passWord){ 
+       
+      $query = "SELECT * FROM `users` WHERE `username` = :username AND `password` = :password";
+        $stmt = $this->dbConnection()->prepare($query);
+        echo "hett";
+        $stmt->execute(array(':username' => $userName, ':password' => $passWord));
+        echo "hett4";
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      
+        if($stmt->rowCount() == 0){
 
             $results =NULL;
             header("location: login.php?error=usernotfound");

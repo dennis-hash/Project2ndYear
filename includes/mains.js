@@ -6,13 +6,14 @@ let toggleNav = function() {
      let getSidebarUl = document.querySelector(".sidebar ul");
      let getSidebarTitle = document.querySelector(".sidebar span");
      let getSidebarLinks = document.querySelectorAll(".sidebar a");
-     
+     let productSection = document.querySelector(".allProducts");
 
 
     if(toggleStatus === false){
         getSidebarUl.style.visibility = "visible";
         getSidebar.style.width = "160px";
-        
+        productSection.style.width = "calc(100% - 160px)";
+        productSection.style.marginLeft = "160px";
 
         let arrayLength = getSidebarLinks.length;
         for(var i = 0; i < arrayLength; i++){
@@ -25,7 +26,8 @@ let toggleNav = function() {
         
         getSidebar.style.width = "60px";
         getSidebarUl.style.visibility = "hidden";
-        
+        productSection.style.width = "calc(100% - 60px)";
+        productSection.style.marginLeft = "60px";
 
         let arrayLength = getSidebarLinks.length;
         for(var i = 0; i < arrayLength; i++){

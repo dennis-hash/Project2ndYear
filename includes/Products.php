@@ -18,6 +18,9 @@
             class Product extends DB {
                 public function __construct(){}
                 public function dispProduct(){
+                    date_default_timezone_set('Africa/Nairobi');
+                    $Timestamp = date('YmdHis'); 
+
                     $this->connect();
                     $sql = "SELECT * FROM products;";
                     $results = $this->queryMysql($sql);
@@ -25,11 +28,16 @@
                         $productName = $row['productName'];
                         $productPrice = $row['price'];
                         $productImage = $row['imagePath'];
+                        $created_at = $row['created_at'];
+
+                        $curr_time=new DateTime();
+                        $difference=$created_at->diff($curr_time);
                         echo "<div class='product'>
                             <img src='$productImage' alt='$productName'>
                             <p>$productName </p>
                             <p>Sold in Bulk</p>
-                            <p>Ksh $productPrice </p>
+                            <p>Kshss $productPrice </p>
+                            <p> time: $difference </p>
                             <form action='cart.php' method='post'>
                                 <input type='hidden' name='productName' value='$productName'>
                                 <input type='hidden' name='productPrice' value='$productPrice'>
@@ -40,8 +48,8 @@
                     }
                 }
             }
-            $product = new Product();
-            $product->dispProduct();
+            //$product = new Product();
+           // $product->dispProduct();
         ?>
        
     </div>

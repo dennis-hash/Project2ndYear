@@ -51,12 +51,14 @@ header{
     width: 60px;
     height: calc(100vh - 60px);
     padding:0 5px ;
-    background-color: #1b1b1b;   
+    background-color: #1b1b1b; 
+    transition: 00.3s;  
 }
 .sidebar ul{
     padding-top:10px;
     overflow: hidden;
     visibility: hidden;
+    border-radius: 5px;
 }
 .sidebar ul span{
     display: block;
@@ -80,6 +82,79 @@ header{
 .sidebar :hover{
     background-color:#222 ;
 }
+
+/*All Products*/
+.allProducts{ 
+    padding-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+   
+    margin: 6px;
+    transition: 0.3s; 
+   
+    
+
+  }
+.product{
+    width: 80%;
+    height: auto;
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
+    font-size: 15px;
+    color: #252324;
+    background: #fff;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    transition: 0.3s;
+ 
+} 
+.product .prodImage{
+    margin-right: auto;
+    width: 45%;
+
+}
+.product .prodImage img{
+   
+    width: auto;
+    height: auto;
+   
+}
+.product .prodDetails{
+    margin-left: auto;
+    width: 55%;
+    /*flex-direction: column;
+    justify-content: space-between;
+    align-items: center;*/
+}
+.product p{
+    margin-left: auto;
+    font-size: 12px;
+    color: #252324;
+
+}
+.product input[type="submit"]{
+   
+    border-color:#db2514 ;
+    outline: none;
+    height: 30px;
+    width: 150px;
+    background: #e63f15;
+    color: #fff;
+    font-size: 15px;
+    border-radius:10px ;
+   
+    
+}
+.product input[type="submit"]:hover{
+    cursor: pointer;
+    background:#fff;
+    transition-duration:0.3s;
+    color: #000;
+}
+
+
 
 @media(max-width:991px){
     html{

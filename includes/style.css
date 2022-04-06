@@ -1,0 +1,275 @@
+*, *::before,* ::after{
+   /* box-sizing: border-box;*/
+    font-family: "Poppins", sans-serif;
+}
+body{
+    /*padding: 0;
+    margin: 0;*/
+    background: #fffdfa;
+}
+.contain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:100% ;
+    height: 70%;
+    padding-left: 50px;
+    padding-top: 70px;
+}
+.addProduct{
+    
+  
+    width:80%;
+    height: 600px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+}
+
+.grid{
+    /*display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-gap: 4px;
+    grid-template-columns: repeat(3,300px);
+    grid-template-rows: minmax(120px,auto) repeat(2,100px);*/
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: minmax(60px,auto) repeat(2,80px);
+    grid-auto-rows: 5em;
+    grid-gap: 3px;
+   
+}
+.data{
+    display: block;
+    width: 90%;
+    height: 90%;
+   padding-left: 5px;
+    
+}
+.data .file{
+    color: blue;
+    border-radius: 5px;
+}    
+.addProduct  select{
+    width: 100%;
+    height: 40px;
+}
+.addProduct input{
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+.addProduct  input[type ="text"],input[type = "number"]{
+   
+    border: 1px solid #666666;
+    background: transparent;
+    background-color: #F5F5F5;
+    outline: none;
+    height: 35px;
+    border-radius: 5px;
+    
+    color:#252324;
+    font-size: 15px;
+
+}
+
+.datasubmit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.datasubmit  input[type="submit"]{
+   
+    border-color: black ;
+    outline: none;
+    height: 30px;
+    background: #fff;
+    font-size: 15px;
+    border-radius:5px ;
+    width: 100px;
+    
+}
+.addProduct  input[type="submit"]:hover{
+    cursor: pointer;
+    background:#2e2bd8 ;
+    transition-duration:0.3s;
+    color: #000;
+}
+.addProduct  input[type="text"]:hover{
+    cursor: pointer;
+    background:	whitesmoke;
+    transition-duration:0.3s;
+    color: #000;
+}
+.addProduct  .textarea{
+    background-color: #fff;
+    padding:1em;
+}
+.addProduct textarea{
+    background-color: #dddddd;
+    border-radius: 10px;
+    border:2px solid b;
+    outline: none;
+    width: 100%;
+}
+.displayProducts {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+
+    
+}
+/*records*/
+.profile_Records{
+    display: flex;
+    
+}
+.dispRecords{
+    padding-top: 100px;
+    margin-left: auto;
+    width: 70%;
+    background: #fffdfa; 
+    border-radius: 5px;
+   
+}
+.dispRecords table{
+    width: 100%;
+    color: black;
+    text-align: center;
+    font-size: 18px;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    
+}
+.dispRecords .records_heading{
+    background: #2e2bd8;
+    color: #fff;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #2e2bd8;
+
+}
+.dispRecords th {
+    height: 20px;
+    font-size: 12px;
+    padding: 8px;
+}
+.dispRecords tr{
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+}
+.dispRecords img{
+    height: auto;
+    width: auto;
+}
+
+
+/*profile page*/
+.prof{
+    padding-top: 100px;
+    padding-left: 50px;
+    margin-right: auto;
+    width: 330px;
+}
+.profile{
+    position:fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 330px;
+    height: 450px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 15px rgb(0 0 0 / 20%);
+    
+   /* font-size: 10px;*/
+}
+.profile h2{
+    font-size: 20px;
+    color: #2e2bd8;
+   
+}
+.profile form{
+   /* display: inline-block;
+    margin-right: auto;
+    line-height: 70px;*/
+   
+}
+.profile ul li{
+    list-style: none;
+    line-height: 2px;
+
+}
+.profile input{
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+
+.profile input[type ="text"], input[type = "password"], input[type = "email"], input[type = "number"]{
+    border: none;
+    border-bottom: 1px solid #230bfb;
+    background: transparent;
+    background-color: #F5F5F5;
+    outline: none;
+    height: 35px;
+    border-radius: 0px;
+    
+    color:#252324;
+    font-size: 15px;
+
+}
+
+
+.profile input[type="submit"]{
+   
+    border-color:#2e2bd8 ;
+    outline: none;
+    height: 30px;
+    background: #2e2bd8;
+    color: #fff;
+    font-size: 15px;
+    border-radius:10px ;
+    
+}
+.profile input[type="submit"]:hover{
+    cursor: pointer;
+    background:#fff;
+    transition-duration:0.3s;
+    color: #000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:991px){
+    html{
+        font-size: 70%;
+    }
+}
+@media(max-width:450px){
+    html{
+        font-size: 70%;
+    }
+}

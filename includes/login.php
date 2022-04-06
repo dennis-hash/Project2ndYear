@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
                         <h2>xyz</h2>
                         <h1 class="g">Account login</h1>
                     
-                   <form action="login.php" method = "POST">
+                   <form action="" method = "POST">
                        <p>Username</p>
                        <input type="text" name="user" placeholder="Enter Username">
                        <p>Password</p>

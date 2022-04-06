@@ -4,7 +4,7 @@
         header('location: login.php?error=notLoggedIn ');
         exit();
     }
-    
+    require_once 'header.php';
     require_once '../classes/dbConnect.class.php';
        
     
@@ -21,8 +21,9 @@
 </head>
 <body>
     <header>
-   
+        
     </header>
+    <div class="profile_Records">
    <?php
     //require_once '../classes/dbConnect.class.php';
         class Profile extends DB {
@@ -36,7 +37,8 @@
                 $userPass = $row['password'];
                 $userEmail = $row['email'];
                 $phoneNum = $row['phoneNO'];
-                echo "<div class='profile'>
+                echo "<div class='prof'>
+                <div class='profile'>
 
                 <form action='update.php'>
                     <ul>
@@ -61,13 +63,72 @@
                         </li>
                     </ul>
                 </form>
+                </div>
                 </div>";
             }
+            public function myProducts(){
+                $userName = $_SESSION['user'];
+                $this->connect();
+                $result =  $this->queryMysql( "SELECT products.productName, products.price, products.imagePath FROM products JOIN users ON products.userID = users.userID;");
+               $noRows=$result->num_rows;
+            
+                echo "<div class = 'dispRecords'>
+                <div class = 'records_heading'>My Products</div>";
+                    
+                       if($noRows == 0){
+                           echo "<h2>No Products<h2> ";
+                       }
+                echo "
+                     <table >
+                        <tr>
+                            <th>No.</th>
+                            <th>Product Category</th>
+                            <th>Price</th>
+                            <th>Image</th>
+                            <th>Edit</th>
+                            
+                        </tr>";
+
+                for($j=0; $j<$noRows; ++$j){
+                    $row=$result->fetch_array(MYSQLI_ASSOC);
+                    $imagepath = htmlspecialchars($row["imagePath"]);
+                   
+                    echo '
+                        <tr>
+                            <td>'.$j .'</td>
+                            <td>'. htmlspecialchars($row['productName']) . '</td>
+                            <td>'.htmlspecialchars($row['price']) .'</td>
+                            <td>'. "<img src = '$imagepath' width='40' height='50'>" .'</td>
+                            <td>'. "<input type='submit' name='edit' value='Edit'> <br>
+                            <input type='submit' name='delete' value='Delete'>" .'</td>
+                        </tr>
+                        ';
+                    echo"
+                    </div>";
+
+                    if(isset($_POST['delete'])){
+                        $this->delete(); 
+                    }
+                    if(isset($_POST['edit'])){
+                        $this->edit(); 
+                    }
+
+                    }
+                   
+            }
+            public function delete(){
+
+            }
+            public function edit(){
+
+            }
+            
         }
         $profile = new Profile();
         $profile->dispProfile();
+        $profile->myProducts();
 
     ?>
-    
+ </div>   
 </body>
 </html>
