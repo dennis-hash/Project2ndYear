@@ -1,19 +1,30 @@
 <?php
 class productController extends Upload{
+    private $fileDestination;
     private $prodName;
     private $prodPrice;
-    private $prodImage;
+    private $prodDescription;
+    private $prodQuantity;
+    private $prodCategory;
+    private $prodSubCategory;
+    private $County;
+    private $prodSubCounty;
+   
     
-
-    public function __construct($prodName, $prodPrice,$prodImage)
-    {
+   
+    public function __construct($prodName, $prodPrice,$prodImage,$prodDescription,$prodQuantity,$prodCategory,$prodSubCategory,$County,$prodSubCounty){
         $this->prodName = $prodName;
         $this->prodPrice = $prodPrice;
         $this->prodImage = $prodImage;
-       // $this->prod_img_tmp_name = $prod_img_tmp_name;
-       // $this->prod_img_folder = $prod_img_folder;
-       
+        $this->prodDescription = $prodDescription;
+        $this->prodQuantity = $prodQuantity;
+        $this->prodCategory = $prodCategory;
+        $this->prodSubCategory = $prodSubCategory;
+        $this->County = $County;
+        $this->prodSubCounty = $prodSubCounty;
+        
     }
+    //error handling
     //error handling for the inputs
     private function emptyInputs()
     {
@@ -33,9 +44,9 @@ class productController extends Upload{
            header("location: AddProducts.php?error=emptyInputs");
            exit();
         }
-       $uploadAndDisplay = new Upload($this->prodName,$this->prodPrice,$this->prodImage);
-       $uploadAndDisplay->uploads();
-       //$uploadAndDisplay->displayProducts();
+        echo "hello";
+       $uploadAndDisplay = new Upload($this->prodName, $this->prodPrice,$this->prodImage,$this->prodDescription,$this->prodQuantity,$this->prodCategory,$this->prodSubCategory,$this->County,$this->prodSubCounty);
+       $uploadAndDisplay->uploadToFolder();
 
     }
 

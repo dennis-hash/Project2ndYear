@@ -1,9 +1,12 @@
 <?php
 class signup extends db{
-    protected function checkUser($userName, $email){ 
-        $results = $this->queryMysql("SELECT * FROM users WHERE userID = '$userName'OR email = '$email';");
-        if($results->num_rows > 0){
-            $resultscheck =false;
+   
+    public function checkUser($userName, $email){
+        $query = "SELECT * FROM `users` WHERE `email` = :email OR `userName` = :userName";
+        $stmt = $this->dbConnection()->prepare($query);
+        $stmt->execute(array(':email' => $email, ':userName' => $userName));
+        if($stmt->rowCount() > 0){
+            $resultscheck = false;
         }
         else{
             $resultscheck = true;
@@ -11,13 +14,13 @@ class signup extends db{
         return $resultscheck;
     }
 
-    protected function setUser($userName,$phone, $email, $passWord){
-        //referencing to the connect method in db class
-        $result = $this->connect();
-         //referencing to the queryMysql method in db class
-        $this->queryMysql("INSERT INTO users VALUES(NULL,'$userName','$phone','$email', '$passWord'); ");
-        die('Account Created');
-    }
+    public function setUser($name,$phone, $email, $password){
+        $query = "INSERT INTO `users`(`username`,`phoneNO`, `email`, `password`) VALUES (:name, :phone ,:email, :password)";
+        $stmt = $this->dbConnection()->prepare($query);
+        $stmt->execute(array(':name' => $name, ':phone'=>$phone,':email' => $email, ':password' => $password));
+        
+    }   
+
 
 
 }

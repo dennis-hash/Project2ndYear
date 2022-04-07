@@ -1,33 +1,42 @@
 <?php
 class Upload extends DB{
-     private $fileDestination;
-     private $prodName;
-     private $prodPrice;
-     private $prodImage;
-
-    public function __construct($prodName, $prodPrice,$prodImage)
-    {
+    private $destination;
+    private $prodName;
+    private $prodPrice;
+    private $prodDescription;
+    private $prodQuantity;
+    private $prodCategory;
+    private $prodSubCategory;
+    private $County;
+    private $prodSubCounty;
+    private $prodTitle;
+    
+    
+   
+    public function __construct($prodName, $prodPrice,$prodImage,$prodDescription,$prodQuantity,$prodCategory,$prodSubCategory,$County,$prodSubCounty){
         $this->prodName = $prodName;
         $this->prodPrice = $prodPrice;
-        $this->prodImage = $prodImage;
-       // $this->prod_img_tmp_name = $prod_img_tmp_name;
-       // $this->prod_img_folder = $prod_img_folder;
-       
+        $this->prodDescription = $prodDescription;
+        $this->prodQuantity = $prodQuantity;
+        $this->prodCategory = $prodCategory;
+        $this->prodSubCategory = $prodSubCategory;
+        $this->County = $County;
+        $this->prodSubCounty = $prodSubCounty;
+  
     }
-
-    protected function uploads(){
+    
+    
+   protected function uploadToFolder(){
        
-        $file_name = $_FILES['image']['name'];
+        $file_name =  $_FILES['image']['name'];
         $fileTmpName = $_FILES['image']['tmp_name'];
         $file_size = $_FILES['image']['size'];
         $file_error = $_FILES['image']['error'];
         $file_type = $_FILES['image']['type'];
-
-       $fileExt = explode('.',$file_name);
+        $fileExt = explode('.',$file_name);
         $fileActualExt = strtolower(end($fileExt));
-
         $allowed = array('jpeg', 'jpg', 'png');
-	
+        echo"in upload image";
 
 	
       if(in_array($fileActualExt, $allowed)){
@@ -35,23 +44,21 @@ class Upload extends DB{
            if($file_error === 0){
                 if($file_size < 1000000){
                     $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-                    $this->fileDestination = 'uploads/'. $fileNameNew;
-                    //header("Location: adminPage.php?uploadSuccess");
-                   // echo " $fileTmpName ";
-                    //echo "$fileDestination";
-                    move_uploaded_file($fileTmpName, $this->fileDestination );
+                    $this->destination = 'uploads/'. $fileNameNew;
+                    echo"in upload image01";
+                    move_uploaded_file($fileTmpName, $this->destination );
 
                     //resizing image
-                    if(file_exists($this->fileDestination )){
-                        //echo "half way done!0.111";
-                        $filePath = $this->fileDestination;
+                    if(file_exists($this->destination )){
+                       
+                        $filePath = $this->destination;
                         $src = imagecreatefrompng($filePath);
-                        //echo "half way done!1";
+                        echo"in upload image111";
                         list($w, $h) = getimagesize($filePath);
                         $max = 300;
                         $tw = $w;
                         $th = $h;
-                        //echo "half way done!2";
+                    
                         if ($w > $h && $max < $w)
                         {
                             $th = $max / $w * $h;
@@ -67,40 +74,30 @@ class Upload extends DB{
                         {
                             $tw = $th = $max;
                         }
-                        //echo "half way done!3";
+                      
                         $tmp = imagecreatetruecolor($tw, $th);
-                        //echo "half way done!4";
+                      
                         imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tw, $th, $w, $h);
-                        //echo "half way done!5";
+                       
                         imageconvolution($tmp, array(array(-1, -1, -1),
                         array(-1, 16, -1), array(-1, -1, -1)), 8, 0);
-                       // echo "half way done!6";
+                      
                         imagepng($tmp, $filePath);
                         
-                        //echo "half way done!";
+                     
                         imagedestroy($tmp);
                         imagedestroy($src);
                     }
                     $userName = $_SESSION['user'];
-                  
-                    //echo " $this->prodName, $this->prodPrice,$this->fileDestination   ";
-                    $connection = $this->connect();
-                    $userId = $this->queryMysql("SELECT userID FROM users WHERE username ='$userName';");
-                    if($userId->num_rows == 0){
-                        $results =NULL;
-                        header("location: ../includes/login.php?error=userIDnotfound");
-                        exit();
-                    }else{
-                        while($row = $userId->fetch_assoc()){
-                            $userID = $row["userID"];
-                        }
+                    echo"in upload image6456";
+                    $userid = $this->getUserID($userName);
+                    echo"in upload imageHELLO";
+                    foreach($userid as $userid){
+                       $userid = $userid['userID'];
                     }
-
-                   // echo "helllll $userID,$this->prodName, $this->prodPrice,$this->fileDestination";
-                    $connection = $this->connect();
-                    $this->queryMysql( "INSERT INTO products(userID, productName, price, imagePath) VALUES('$userID','$this->prodName',' $this->prodPrice','$this->fileDestination');");
+                    $this->insertProduct($userid,$this->prodName, $this->prodPrice, $this->destination, $this->prodDescription, $this->prodQuantity, $this->prodCategory, $this->prodSubCategory, $this->County, $this->prodSubCounty, $this->prodTitle);
+                    echo "uploaded";
                     
-
                 }
                 else{
                     echo "file too big";
@@ -113,130 +110,28 @@ class Upload extends DB{
         } 
     
     }
-   /* protected function resizeImage($file){
-        $filePath = $file;
-        if(file_exists($filePath)){
-            //echo "half way done!0.111";
-            $src = imagecreatefrompng($filePath);
-            //echo "half way done!1";
-            list($w, $h) = getimagesize($filePath);
-            $max = 300;
-            $tw = $w;
-            $th = $h;
-            //echo "half way done!2";
-            if ($w > $h && $max < $w)
-            {
-                $th = $max / $w * $h;
-                $tw = $max;
-            }
-            
-            elseif ($h > $w && $max < $h)
-            {
-                $tw = $max / $h * $w;
-                $th = $max;
-            }
-            elseif ($max < $w)
-            {
-                $tw = $th = $max;
-            }
-            //echo "half way done!3";
-            $tmp = imagecreatetruecolor($tw, $th);
-            //echo "half way done!4";
-            imagecopyresampled($tmp, $src, 0, 0, 0, 0, $tw, $th, $w, $h);
-            //echo "half way done!5";
-            imageconvolution($tmp, array(array(-1, -1, -1),
-            array(-1, 16, -1), array(-1, -1, -1)), 8, 0);
-           // echo "half way done!6";
-            imagepng($tmp, $filePath);
-            
-            //echo "half way done!";
-            imagedestroy($tmp);
-            imagedestroy($src);
 
-            return $filePath;
-            
-        } 
-    }*/
-
-    protected function displayProducts(){
-       // $a = array();
-       // $pName = array();
-       // $pPrice = array();
-       // $pImage = array();
-
-        
-        $userName = $_SESSION['user'];
-        $result =  $this->queryMysql( "SELECT products.productName, products.price, products.imagePath FROM products JOIN users ON products.userID = users.userID;");
-        $noRows=$result->num_rows;
-        echo  '<!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link rel="stylesheet" href="styles.css">
-                    
-                </head>
-               
-                
-            ';
-        
-        echo "<table >
-                <tr>
-                    <th>No.</th>
-                    <th>Product Category</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Edit</th>
-                    
-                </tr>";
-       // while($row = $result->fetch_assoc()){
-       //     $i = 0;
-       //     $productName = $row["productName"];
-       //     $productPrice = $row["price"];
-       //     $imagepath = $row["imagePath"];
-       //     $image = $this->resizeImage($imagepath);
-
-            //$pName = array_push($productName );
-            //$pPrice = array_push($productPrice );
-            //$pImage = array_push( $image );
-        
-            
-                //for($i = 0;$i < $noRows; $i++){
-                   /* echo '
-                    <tr>
-                        <td>'. $i++ . '</td>
-                        <td>'.$productName .'</td>
-                        <td>'.$productPrice .'</td>
-                        <td>'. "<img src = '$image' >" .'</td>
-                    </tr>
-                    ';
-                //}   */
-       // }
-       // echo "in resize end";
-      // $a = array_push($pName, $pPrice,  $pImage, $rows ); 
-       //echo "$a";
-       // return $a;
-
-       for($j=0; $j<$noRows; ++$j){
-        $row=$result->fetch_array(MYSQLI_ASSOC);
-        $imagepath = htmlspecialchars($row["imagePath"]);
-       
-        echo '
-            <tr>
-                <td>'.$j .'</td>
-                <td>'. htmlspecialchars($row['productName']) . '</td>
-                <td>'.htmlspecialchars($row['price']) .'</td>
-                <td>'. "<img src = '$imagepath' >" .'</td>
-            </tr>
-            ';
-        
-        }
-       
+    //get userID
+    public function getUserID($userName){
+        echo"in upload image in get user id";
+        $query = "SELECT `userID` FROM `users` WHERE `userName` = :userName";
+        echo"in upload image query";
+        $stmt = $this->dbConnection()->prepare($query);
+        echo"in upload image stmt";
+        $stmt->execute(array(':userName' => $userName));
+        echo"in upload image execute";
+        $result = $stmt->fetch();
+        echo"in upload image2";
+        return $result;
     }
-
-
-
-
+    //insert products
+    public function insertProduct($userID, $productName, $price, $imagePath,$prodDescription, $prodQuantity, $prodCategory, $prodSubCategory, $County, $prodSubCounty, $prodTitle){
+        $query = "INSERT INTO `products`(`userID`, `productName`, `price`, `imagePath`,`productDescription`,`prodQuantity`,`prodCategory`,`prodSubCategory`,`County`,`SubCounty`,`Title`) VALUES (:userID, :productName, :price, :imagePath, :prodDescription, :prodQuantity, :prodCategory, :prodSubCategory, :County, :prodSubCounty, :prodTitle)";
+        $stmt = $this->dbConnection()->prepare($query);
+        $stmt->execute(array(':userID' => $userID, ':productName' => $productName, ':price' => $price, ':imagePath' => $imagePath, ':prodDescription' => $prodDescription, ':prodQuantity' => $prodQuantity, ':prodCategory' => $prodCategory, ':prodSubCategory' => $prodSubCategory, ':County' => $County, ':prodSubCounty' => $prodSubCounty, ':prodTitle' => $prodTitle));
+        echo"in upload image3";
+     
+    }
+   
 }
 
