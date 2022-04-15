@@ -1,8 +1,11 @@
 <?php
-//session_start();
-
+;
 session_start();
-//include 'header.php';
+if(!isset($_SESSION['user'])){
+    header('location: login.php?error=notLoggedIn ');
+    exit();
+}
+include 'header.php';
 if(isset($_POST['add'])){
     $title = $_POST['product_name'];
     $productPrice = $_POST['product_price'];
@@ -10,7 +13,6 @@ if(isset($_POST['add'])){
     $county = $_POST['county'];
     $subcounty = $_POST['subcounty'];
     $category = $_POST['category'];
-    $productImage = $_POST['product_image'];
     $prodQuantity = $_POST['product_quantity'];
     $subcategory = $_POST['subcategory'];
     $price = $_POST['product_price'];
@@ -46,7 +48,7 @@ if(isset($_POST['add'])){
    </header>
    <div class = "contain">
     <div class="addProduct">
-        <form  action="" method="post" enctype="multipart/form-data">
+        <form  action="AddProducts.php" method="post" enctype="multipart/form-data">
          <div class = "grid">
              <div class ='data'>
           <p>Category</p>
@@ -131,7 +133,7 @@ if(isset($_POST['add'])){
             </div>
               <div class="data">
                 <p>Sub County</p>
-                <input type="text" name = "subcounty" placeholder="Sub County">
+                <input type="text" name = "subcounty"  id = "search" placeholder="Sub County">
             </div>
             <div class="data">
                 <p>Title</p>
@@ -164,6 +166,15 @@ if(isset($_POST['add'])){
    
    
 </body>
+<script>
+ function initMap(){
+ 	var input = document.getElementById('search');
+ 	var autocomplete =  new google.maps.places.Autocomplete(input);
+ }
+</script>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtYtYPbBn1IhLM2gzqftYPb6s1SBlVjT8&libraries=places&callback=initMap">
+</script>
 </html>
 
 

@@ -44,7 +44,7 @@ class productController extends Upload{
            header("location: AddProducts.php?error=emptyInputs");
            exit();
         }
-        echo "hello";
+
        $uploadAndDisplay = new Upload($this->prodName, $this->prodPrice,$this->prodImage,$this->prodDescription,$this->prodQuantity,$this->prodCategory,$this->prodSubCategory,$this->County,$this->prodSubCounty);
        $uploadAndDisplay->uploadToFolder();
 

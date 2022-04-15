@@ -1,19 +1,18 @@
 *, *::before,* ::after{
    /* box-sizing: border-box;*/
     font-family: "Poppins", sans-serif;
+    
 }
 body{
     /*padding: 0;
     margin: 0;*/
-    background: #fffdfa;
+    background: #EEF2F4;
 }
 .contain{
     display: flex;
     justify-content: center;
     align-items: center;
-    width:100% ;
-    height: 70%;
-    padding-left: 50px;
+    
     padding-top: 70px;
 }
 .addProduct{
@@ -26,20 +25,17 @@ body{
     justify-content: center;
     align-items: center;
     box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+    background-color:#fff ;
 }
 
 .grid{
-    /*display: grid;
-    justify-content: center;
-    align-content: center;
-    grid-gap: 4px;
-    grid-template-columns: repeat(3,300px);
-    grid-template-rows: minmax(120px,auto) repeat(2,100px);*/
+   
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: minmax(60px,auto) repeat(2,80px);
     grid-auto-rows: 5em;
     grid-gap: 3px;
+    background-color:#fff ;
    
 }
 .data{
@@ -129,12 +125,13 @@ body{
 .profile_Records{
     display: flex;
     
+    
 }
 .dispRecords{
     padding-top: 100px;
     margin-left: auto;
     width: 70%;
-    background: #fffdfa; 
+    background: #EEF2F4;
     border-radius: 5px;
    
 }
@@ -144,7 +141,7 @@ body{
     text-align: center;
     font-size: 18px;
     border-collapse: separate;
-    border-spacing: 0 15px;
+    border-spacing: 0 8px;
     
 }
 .dispRecords .records_heading{
@@ -161,11 +158,13 @@ body{
     height: 20px;
     font-size: 12px;
     padding: 8px;
+    background-color: #fff 
 }
 .dispRecords tr{
     height: auto;
     border-radius: 5px;
     box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+    background-color: #fff ;
 }
 .dispRecords img{
     height: auto;
@@ -176,21 +175,21 @@ body{
 /*profile page*/
 .prof{
     padding-top: 100px;
-    padding-left: 50px;
+    padding-left: 100px;
     margin-right: auto;
-    width: 330px;
+    
 }
 .profile{
-    position:fixed;
+   
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 330px;
+    width: 250px;
     height: 450px;
     border-radius: 5px;
     background: #fff;
     box-shadow: 0 2px 15px rgb(0 0 0 / 20%);
-    
+    border: 1px solid red;
    /* font-size: 10px;*/
 }
 .profile h2{
@@ -199,9 +198,10 @@ body{
    
 }
 .profile form{
-   /* display: inline-block;
-    margin-right: auto;
-    line-height: 70px;*/
+  
+   border: 1px solid black;
+   width: 100%;
+   height: 100%;
    
 }
 .profile ul li{
@@ -210,12 +210,13 @@ body{
 
 }
 .profile input{
-    width: 100%;
+    width: 90%;
     margin-bottom: 10px;
 
 }
 
 .profile input[type ="text"], input[type = "password"], input[type = "email"], input[type = "number"]{
+    
     border: none;
     border-bottom: 1px solid #230bfb;
     background: transparent;

@@ -24,10 +24,10 @@ let toggleNav = function() {
 
     else {
         
-        getSidebar.style.width = "60px";
+        getSidebar.style.width = "40px";
         getSidebarUl.style.visibility = "hidden";
-        productSection.style.width = "calc(100% - 60px)";
-        productSection.style.marginLeft = "60px";
+        productSection.style.width = "calc(100% - 40px)";
+        productSection.style.marginLeft = "40px";
 
         let arrayLength = getSidebarLinks.length;
         for(var i = 0; i < arrayLength; i++){

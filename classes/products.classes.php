@@ -36,7 +36,7 @@ class Upload extends DB{
         $fileExt = explode('.',$file_name);
         $fileActualExt = strtolower(end($fileExt));
         $allowed = array('jpeg', 'jpg', 'png');
-        echo"in upload image";
+       
 
 	
       if(in_array($fileActualExt, $allowed)){
@@ -45,7 +45,6 @@ class Upload extends DB{
                 if($file_size < 1000000){
                     $fileNameNew = uniqid('', true) . "." . $fileActualExt;
                     $this->destination = 'uploads/'. $fileNameNew;
-                    echo"in upload image01";
                     move_uploaded_file($fileTmpName, $this->destination );
 
                     //resizing image
@@ -53,7 +52,7 @@ class Upload extends DB{
                        
                         $filePath = $this->destination;
                         $src = imagecreatefrompng($filePath);
-                        echo"in upload image111";
+                       
                         list($w, $h) = getimagesize($filePath);
                         $max = 300;
                         $tw = $w;
@@ -89,14 +88,14 @@ class Upload extends DB{
                         imagedestroy($src);
                     }
                     $userName = $_SESSION['user'];
-                    echo"in upload image6456";
+
                     $userid = $this->getUserID($userName);
-                    echo"in upload imageHELLO";
+  
                     foreach($userid as $userid){
                        $userid = $userid['userID'];
                     }
                     $this->insertProduct($userid,$this->prodName, $this->prodPrice, $this->destination, $this->prodDescription, $this->prodQuantity, $this->prodCategory, $this->prodSubCategory, $this->County, $this->prodSubCounty, $this->prodTitle);
-                    echo "uploaded";
+                  
                     
                 }
                 else{
@@ -113,15 +112,15 @@ class Upload extends DB{
 
     //get userID
     public function getUserID($userName){
-        echo"in upload image in get user id";
+       
         $query = "SELECT `userID` FROM `users` WHERE `userName` = :userName";
-        echo"in upload image query";
+
         $stmt = $this->dbConnection()->prepare($query);
-        echo"in upload image stmt";
+     
         $stmt->execute(array(':userName' => $userName));
-        echo"in upload image execute";
+    
         $result = $stmt->fetch();
-        echo"in upload image2";
+     
         return $result;
     }
     //insert products
@@ -129,7 +128,6 @@ class Upload extends DB{
         $query = "INSERT INTO `products`(`userID`, `productName`, `price`, `imagePath`,`productDescription`,`prodQuantity`,`prodCategory`,`prodSubCategory`,`County`,`SubCounty`,`Title`) VALUES (:userID, :productName, :price, :imagePath, :prodDescription, :prodQuantity, :prodCategory, :prodSubCategory, :County, :prodSubCounty, :prodTitle)";
         $stmt = $this->dbConnection()->prepare($query);
         $stmt->execute(array(':userID' => $userID, ':productName' => $productName, ':price' => $price, ':imagePath' => $imagePath, ':prodDescription' => $prodDescription, ':prodQuantity' => $prodQuantity, ':prodCategory' => $prodCategory, ':prodSubCategory' => $prodSubCategory, ':County' => $County, ':prodSubCounty' => $prodSubCounty, ':prodTitle' => $prodTitle));
-        echo"in upload image3";
      
     }
    

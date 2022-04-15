@@ -27,6 +27,20 @@ if(isset($_POST['submit'])){
         <title>Login Form</title>
         <link rel="stylesheet" type="text/css" href="site.css">
         <body>
+            <div class ="log">
+           <?php
+     
+            $login_check = $_GET['error'];
+            if($login_check == "usernotfound"){
+                echo "<p class = 'error' >Unable to login with provided credentials</p>";
+                //exit();
+            } elseif($login_check == "emptyInputs"){
+                echo "<p class = 'error'>Fill all fields </p>";
+                //exit();
+            }
+            
+
+            ?>
             <div class="loginbox">
                 <div class="box">
                 
@@ -39,17 +53,17 @@ if(isset($_POST['submit'])){
                        <p>Password</p>
                        <input type="password" name="pass" placeholder="Enter Password">
                        
-                       <p><a href="">Forgot password?</a></p><br>
+                       <p class = "terms"><a href="" >Forgot password?</a></p><br>
                        <input type="submit" name="submit" placeholder="Login" value="Login">
                        
                         <h1 class="g">Create account</h1>
-                        <input type="submit" name="singup"  placeholder="Login" value="Register">
-                       
-
+                        </form>
+                    <form action="singup.php">
+                        <input type="submit" name="signup" value="Register">
                    </form>
                    </div>
             </div>
-
+            </div>
         </body>
     </head>
 </html>

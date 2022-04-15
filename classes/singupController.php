@@ -80,19 +80,19 @@ class singupController extends signup{
     {
        
         if($this->emptyInputs() == false){
-           header("location: ../index.php?error=emptyInputs");
+           header("location: singup.php?error=emptyInputs");
            exit();
         }
         if($this->invalidUsername() == false){
-            header("location: ../index.php?error=invalidUsername");
+            header("location: singup.php?error=invalidUsername");
             exit();
         }
         if($this->invalidEmail() == false){
-            header("location: ../index.php?error=invalidEmail");
+            header("location: singup.php?error=invalidEmail");
             exit();
          }
          if($this->matchPassword() == false){
-            header("location: ../index.php?error=passwordnotMatching");
+            header("location: singup.php?error=passwordnotMatching");
             exit();
          }
          

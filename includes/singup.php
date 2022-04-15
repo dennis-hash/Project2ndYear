@@ -30,7 +30,31 @@ if(isset($_POST['submit'])){
     <link rel="stylesheet" href="site.css">
 </head>
 <body>
-<div class="register">
+<div class="reg">
+    <?php
+     
+        $signup_check = $_GET['error'];
+        if($signup_check == "emptyInputs"){
+            echo "<p class = 'error' >Please Fill all field</p>";
+            //exit();
+        }
+        elseif($signup_check == "invalidUsername"){
+            echo "<p class = 'error'>Invalid username</p>";
+            //exit();
+        }
+        elseif($signup_check == "invalidEmail"){
+            echo "<p class = 'error'>Invalid email</p>";
+            //exit();
+        }
+        elseif($signup_check == "passwordnotMatching"){
+            echo "<p class = 'error'>passwods do not match</p>";
+            //exit();
+        }
+       
+  
+    ?>
+
+    <div class="register">
         <div class="box">
         
             <h2>MSoko</h2>
@@ -59,5 +83,6 @@ if(isset($_POST['submit'])){
             
             </div>
     </div>
+</div>
 </body>
 </html>

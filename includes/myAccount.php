@@ -29,19 +29,37 @@
         class Profile extends DB {
             public function __construct(){}
             public function dispProfile(){
-                $userName = $_SESSION['user'];
-                $this->connect();
-                $sql = "SELECT * FROM users WHERE username = '$userName';";
-                $results = $this->queryMysql($sql);
-                $row = $results->fetch_assoc();
-                $userPass = $row['password'];
-                $userEmail = $row['email'];
-                $phoneNum = $row['phoneNO'];
+           
+            $userName = $_SESSION['user'];
+            $query = "SELECT * FROM `users` WHERE `username` = :username";
+            $stmt = $this->dbConnection()->prepare($query);
+            $stmt->execute(array(':username' => $userName,));
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            if($stmt->rowCount() == 0){
+
+                $results =NULL;
+                header("location: login.php?error=usernotfound");
+                exit();
+            }else{
+                foreach($result as $row){
+                  
+                    $userEmail  = $row['email'];
+                    $phoneNum = $row['phone'];
+                    $userPass = $row['password'];
+                  
+                    
+                }
+               
                 echo "<div class='prof'>
                 <div class='profile'>
 
-                <form action='update.php'>
+                <form action='update.php' method='post' enctype='multipart/form-data'>
                     <ul>
+                        <li>
+                            
+                            <input class = 'file' type='file' name='image'>
+                        </li>
                         <li>
                             <p>Username</p>
                             <input type='text' name='username' value= '$userName' ?>
@@ -66,17 +84,28 @@
                 </div>
                 </div>";
             }
+        }
             public function myProducts(){
                 $userName = $_SESSION['user'];
-                $this->connect();
-                $result =  $this->queryMysql( "SELECT products.productName, products.price, products.imagePath FROM products JOIN users ON products.userID = users.userID;");
-               $noRows=$result->num_rows;
-            
+                $qquery = "SELECT `userID` from `users` where `username` = :username";
+                $stmt = $this->dbConnection()->prepare($qquery);
+                $stmt->execute(array(':username'=>$userName));
+                $result = $stmt->fetch();
+                foreach($result as $result){
+                    $user_id = $result['userID'];
+                }
+
+                $query = "SELECT products.productName, products.price, products.imagePath FROM products WHERE userID = $user_id ";
+                $stmt = $this->dbConnection()->query($query);
+               
+                $noRows = $stmt->rowCount();
+               
                 echo "<div class = 'dispRecords'>
                 <div class = 'records_heading'>My Products</div>";
                     
                        if($noRows == 0){
                            echo "<h2>No Products<h2> ";
+                           exit();
                        }
                 echo "
                      <table >
@@ -89,15 +118,16 @@
                             
                         </tr>";
 
-                for($j=0; $j<$noRows; ++$j){
-                    $row=$result->fetch_array(MYSQLI_ASSOC);
-                    $imagepath = htmlspecialchars($row["imagePath"]);
+               for($j=0; $j<$noRows; ++$j){
+                $row = $stmt->fetch(PDO::FETCH_GROUP |PDO::FETCH_ASSOC);
+                  
+                    $imagepath = $row["imagePath"];
                    
                     echo '
                         <tr>
-                            <td>'.$j .'</td>
-                            <td>'. htmlspecialchars($row['productName']) . '</td>
-                            <td>'.htmlspecialchars($row['price']) .'</td>
+                          
+                            <td>'. $row['productName'] . '</td>
+                            <td>'.$row['price'] .'</td>
                             <td>'. "<img src = '$imagepath' width='40' height='50'>" .'</td>
                             <td>'. "<input type='submit' name='edit' value='Edit'> <br>
                             <input type='submit' name='delete' value='Delete'>" .'</td>
@@ -116,6 +146,7 @@
                     }
                    
             }
+
             public function delete(){
 
             }
@@ -124,6 +155,7 @@
             }
             
         }
+
         $profile = new Profile();
         $profile->dispProfile();
         $profile->myProducts();

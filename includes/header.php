@@ -20,13 +20,17 @@
 
     <header>
     <div class="navlinks">
+       
         <img src="../images/menu.svg" alt="" onclick="toggleNav()">
+      <div class="search">
+        <input type="search" name="search" id="search" placeholder="search">
+      </div>
+       
             <?php
                 if($loggedin){
              
                 echo<<< _INIT
                 <li><a href="index.php">Home</a></li>
-                <li><a href="#">$user</a></li>
                 <li><a href="myAccount.php">My Acount</a></li>
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>

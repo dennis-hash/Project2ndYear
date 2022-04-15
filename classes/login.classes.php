@@ -23,6 +23,7 @@ class Login extends DB{
           session_start();
             $_SESSION['user'] = $userName;
             $_SESSION['pass'] = $passWord;
+           
             header("location: index.php?loggedin");
         }
     }

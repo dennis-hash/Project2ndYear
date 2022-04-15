@@ -23,7 +23,7 @@ let toggleNav = function() {
 
     else {
         
-        getSidebar.style.width = "60px";
+        getSidebar.style.width = "40px";
         getSidebarUl.style.visibility = "hidden";
         
 
