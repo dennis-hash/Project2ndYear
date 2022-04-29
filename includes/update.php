@@ -1,38 +1,3 @@
-<?php
-
-session_start();
-if(!isset($_SESSION['user'])){
-    header('location: login.php?error=notLoggedIn ');
-    exit();
-}
-//include 'header.php';
-/*if(isset($_POST['add'])){
-    $title = $_POST['product_name'];
-    $productPrice = $_POST['product_price'];
-    $prodDescription = $_POST['textarea'];
-    $county = $_POST['county'];
-    $subcounty = $_POST['subcounty'];
-    $category = $_POST['category'];
-    $prodQuantity = $_POST['product_quantity'];
-    $subcategory = $_POST['subcategory'];
-    $price = $_POST['product_price'];
-
-
-    
-    include "../classes/dbConnect.class.php";
-    include "../classes/products.classes.php";
-    
-
-
-  
-   $uploadProduct = new Upload($title, $price,$_FILES,$prodDescription,$prodQuantity,$category,$subcategory,$county,$subcounty);
-   $uploadProduct->uploadProducts();
-   
-}*/
-
-   
-	
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,9 +12,7 @@ if(!isset($_SESSION['user'])){
    <header>
 
    </header>
-   <div class='error'></div>
    <div class = "contain">
-   
     <div class="addProduct">
         <form  action="" method="post" enctype="multipart/form-data">
          <div class = "grid">
@@ -162,7 +125,7 @@ if(!isset($_SESSION['user'])){
                 <textarea  name="textarea" id="textarea" cols="30" rows="7" placeholder="Type here..."></textarea>
             </div>
             <div class="datasubmit">
-                <input type="submit" name="add" value="ADD">
+                <input type="submit" name="add" value="UPDATE">
             </div>
            
         </form>
@@ -189,49 +152,31 @@ if(!isset($_SESSION['user'])){
     $('form').submit(function(event){
     event.preventDefault();
     var $form = $(this),
-    url = "../classes/products.classes.php";
-    var action = 'insert';
-     insert(url, action);
+    url = "../classes/myaccount.class.php";
+    var action = 'update';
+    search(url, action);
    
     });
 
-    function insert(url,action){
-        var page_url = window.location.search.substring(1);
-        var parameter = page_url.split('=');
-        var action2 = parameter[0];
-        var index = parameter[1];
-        console.log(action);
-        console.log(index);
-        //var posting = $.post( url, { action:'edit', a:action ,index:index });
-        var file= $('#image')[0].files;
-        var formData = new FormData();
-        formData.append('image', file[0]);
-        formData.append('product_name', $('#product_name').val());
-        formData.append('product_quantity', $('#product_quantity').val());
-        formData.append('product_price', $('#product_price').val());
-        formData.append('textarea', $('#textarea').val());
-        formData.append('category', $('#category').val());
-        formData.append('county', $('#county').val());
-        formData.append('subcounty', $('#subcounty').val());
-        formData.append('index', index);
-        formData.append('edit', action2);
-        formData.append('action', action);
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function(data){
-                $('.error').html(data);
-                //alert(data);
-                //window.location.href = "../pages/addProduct.php";
-            }
-        });
+    function search(url,action){
+        
+    var post = $.post(url, {
+        action: action,
+        cat: $('#category').val(),
+        county: $('#county').val(),
+        sc: $('#subcounty').val(),
+        pn: $('#product_name').val(),
+        pq: $('#product_quantity').val(),
+        pp: $('#product_price').val(),
+        img: $('#image').val(),
+        ta: $('#textarea').val(),
+        
+    });
+    post.done(function(data){
+        $('.allProducts').html(data);
+        $('.search').val('');
+    });
     }
-
-
-
 
 </script>
 </html>

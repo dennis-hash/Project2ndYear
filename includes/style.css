@@ -167,8 +167,14 @@ body{
     background-color: #fff ;
 }
 .dispRecords img{
-    height: auto;
-    width: auto;
+    width: 60%;
+}
+img{
+ 
+    max-width: 100%;
+    height: 160px;
+    width: 200px;
+    border-radius: 3px;
 }
 
 
@@ -216,14 +222,14 @@ body{
 }
 
 .profile input[type ="text"], input[type = "password"], input[type = "email"], input[type = "number"]{
-    
-    border: none;
-    border-bottom: 1px solid #230bfb;
+
+
+    border: 1px solid #666666;
     background: transparent;
     background-color: #F5F5F5;
     outline: none;
     height: 35px;
-    border-radius: 0px;
+    border-radius: 5px;
     
     color:#252324;
     font-size: 15px;

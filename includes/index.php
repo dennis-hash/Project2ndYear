@@ -6,9 +6,7 @@
         $loggedin = TRUE;
         
     }
-    
    
-    require_once '../classes/dbConnect.class.php';
 
 ?>
 <!DOCTYPE html>
@@ -19,13 +17,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MStore</title>
     <link rel="stylesheet" href="ains.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <body>
 
     <header>
     <div class="navlinks">
         <img src="../images/menu.svg" alt="" onclick="toggleNav()">
-        <div class="search">
-            <input type="search" name="search" id="search" placeholder="search">
+        <div class="searches">
+            <form action = "../classes/index.class.php" method="POST" >
+                <input type="search" name="search"  class="search" placeholder="search">
+                <input class="button" class="submit" type="submit" name = "submit" value="search">
+                <!--<button type="submit" ><img src="../images/magnifying-glass-solid.svg" alt=""></button>-->
+            </form>
         </div>
        
         
@@ -33,7 +36,7 @@
                 if($loggedin){
              
                 echo<<< _INIT
-                <li><a href="#">$user</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="myAccount.php">My Acount</a></li>
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>
@@ -56,87 +59,55 @@
     <!--side bar-->
     <aside class="sidebar">
         <ul>
-            <li><span>Categories</span></li>
-            <li><a href="#">Farm and Machinery</a></li>
-            <li><a href="Register.php">Feeds and Supplements</a></li>
+            <li><a href="#">Agroproducts</a></li>
+            <li><a href="#">Farm Machinery</a></li>
+            <li><a href="Register.php">Feeds & Supplements</a></li>
             <li><a href="records.php">Livestock & Poultry</a></li>
             <li><a href="#">Fertilizers</a></li>
             <li><a href="#">Pesticides & insecticides</a></li>
-            <li><a href="#">Agroservice</a></li>
+            <li><a href="#">Agroservices</a></li>
+            
         </ul>
     </aside>
     
-    <div class="allProducts">
-        <?php
-            class Product extends DB {
-                private $productName;
-                private $productPrice;
-                private $productDescription;
-                private $county;
-                private $subcounty;
-                private $category;
-                private $productImage;
-                private $difference;
-                private $created_at;
-
-                public function __construct(){}
-
-                public function dispProduct(){
-                    date_default_timezone_set('Africa/Nairobi');
-                    $results = $this->getAll();
-                   foreach($results as $row){
-                        $this->productName = $row['productName'];
-                        $this->productPrice = $row['price'];
-                        $this->productImage = $row['imagePath'];
-                        $this->productDescription = $row['description'];
-                        $this->county = $row['County'];
-                        $this->subcounty = $row['SubCounty'];
-                        $this->category = $row['Category'];
-                        $this->subcategory = $row['prodSubCategory'];
-                        $this->difference = $row['difference'];
-                        $this->created_at = $row['created_at'];
-
-                        $created_at = new DateTime(date('Y-m-d H:i:s', strtotime($this->created_at)));
-                        $curr_time=new DateTime(date('Y-m-d H:i:s'));
-                        $this->difference=$created_at->diff($curr_time);
-                        $this->difference = $this->difference->format('%H');
-                        echo "<div class='product'>
-         
-                            <div class = 'prodImage'> <img src='$this->productImage' alt='$this->productName'> </div>
-                         <div class='prod'>
-                            <div class = 'prodname'>  <p>$this->productName </p></div>
-                            <div class = 'quantitySold'>  <p>Sold in Bulk</p></div>
-                            <div class = 'prodprice'> <p>Ksh $this->productPrice </p></div>"
-                            . "<div class = 'proddesc'> <p>$this->productDescription </p></div>"
-                            . "<div class = 'prodcounty'> <p>$this->county </p></div>"
-                            . "<div class = 'prodsubcounty'> <p>$this->subcounty </p></div>"
-                            . "<div class = 'prodcategory'> <p>$this->category </p></div>"
-                            . "<div class = 'prodsubcategory'> <p>$this->subcategory </p></div>"
-
-                            . "<div class = 'prodview'> <a href='#'>View</a></div>"
-                            . "<div class = 'prodbuy'> <a href='#'>Buy</a></div>"
-                            . "<div class = 'prodName'><p> Posted:  $this->difference Hrs ago</p></div>
-                           </div>
-                        </div>";
-                    }
-                }
-                
-                
-                public function getAll(){
-                   
-                    $query = "SELECT * FROM `products`";
-                    $stmt = $this->dbConnection()->prepare($query);
-                    $stmt->execute();
-                    $result = $stmt->fetchAll();
-                    return $result;
-                }
-            }
-            $product = new Product();
-            $product->dispProduct();
-        ?>
-       
-    </div>
+    <div class="allProducts"></div>
+    
        
 </body>
 <script src="mains.js"></script> 
+<script>
+    getall();
+    function getall(){
+    $.get('../classes/index.class.php',{ action:'display_products'})
+        .done(function(data){
+        $('.allProducts').html(data);
+        });
+    }
+  
+  $('form').submit(function(event){
+    event.preventDefault();
+    var $form = $(this),
+    url = $form.attr('action');
+    var action = 'search';
+    search(url, action);
+   
+  });
+
+  function search(url,action){
+      
+    var post = $.post(url, {
+        search: $('.search').val(),
+        
+        action:action
+    
+    });
+    post.done(function(data){
+        $('.allProducts').html(data);
+        $('.search').val('');
+    });
+  }
+
+
+</script>
 </html>
+

@@ -3,7 +3,7 @@
     if (isset($_SESSION['user']))
     {
         $user = $_SESSION['user'];
-        $loggedin = TRUE;
+       
         
     }
 ?>
@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MStore</title>
     <link rel="stylesheet" href="ains.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 
@@ -22,8 +23,13 @@
     <div class="navlinks">
        
         <img src="../images/menu.svg" alt="" onclick="toggleNav()">
-      <div class="search">
-        <input type="search" name="search" id="search" placeholder="search">
+      <div class="searches">
+      <form action = "../classes/index.class.php" method="POST" >
+                <input type="search" name="search"  class="search" placeholder="search">
+                <input class="button" class="submit" type="submit" name = "submit" value="search">
+                <!--<button type="submit" ><img src="../images/magnifying-glass-solid.svg" alt=""></button>-->
+            </form>
+        
       </div>
        
             <?php
@@ -64,4 +70,27 @@
    
 </body>
 <script src="main.js"></script> 
+<script>
+    $('form').submit(function(event){
+    event.preventDefault();
+    var $form = $(this),
+    url = $form.attr('action');
+    var action = 'search';
+    search(url, action);
+   
+  });
+
+  function search(url,action){
+    var post = $.post(url, {
+        search: $('.search').val(),
+        
+        action:action
+    
+    });
+    post.done(function(data){
+        $('.allProducts').html(data);
+        $('.search').val('');
+    });
+  }
+</script>
 </html>

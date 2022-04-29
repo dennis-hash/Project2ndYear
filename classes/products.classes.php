@@ -1,5 +1,11 @@
 <?php
-class Upload extends DB{
+session_start();
+ require_once 'dbConnect.class.php';
+       
+
+        $uploadProduct = new Upload();
+
+class Upload {
     private $destination;
     private $prodName;
     private $prodPrice;
@@ -13,19 +19,45 @@ class Upload extends DB{
     
     
    
-    public function __construct($prodName, $prodPrice,$prodImage,$prodDescription,$prodQuantity,$prodCategory,$prodSubCategory,$County,$prodSubCounty){
-        $this->prodName = $prodName;
-        $this->prodPrice = $prodPrice;
-        $this->prodDescription = $prodDescription;
-        $this->prodQuantity = $prodQuantity;
-        $this->prodCategory = $prodCategory;
-        $this->prodSubCategory = $prodSubCategory;
-        $this->County = $County;
-        $this->prodSubCounty = $prodSubCounty;
+    public function __construct(){
+        $db=new DB();
+        $this->DB = $db->dbConnection();
+        $this->prodName = $_POST['product_name'];
+        $this->prodPrice = $_POST['product_price'];
+        $this->prodDescription = $_POST['textarea'];
+        $this->prodQuantity = $_POST['product_quantity'];
+        $this->prodCategory = $_POST['category'];
+        $this->prodSubCategory =  $_POST['subcategory'];
+        $this->County = $_POST['county'];
+        $this->prodSubCounty = $_POST['subcounty'];
+      
+        
+        if($_POST['edit']==='edit'){
+            $this->editProducts($_POST['index']);
+        }else{
+            $this->uploadProducts();   
+        }
   
     }
     
-    
+    private function emptyInputs()
+    {
+        
+        if(empty($this->prodName) || empty($this->prodPrice) || empty($this->prodImage) || empty( $this->prodDescription) || empty($this->prodQuantity) || empty($this->prodCategory) || empty($this->prodSubCategory) || empty($this->County) || empty($this->prodSubCounty)){
+            $results = false;
+        }
+        else{
+            $results = true; 
+        }
+        return $results;
+    }
+    public function uploadProducts()
+    {
+        
+        $this->insertProduct();
+
+    }
+
    protected function uploadToFolder(){
        
         $file_name =  $_FILES['image']['name'];
@@ -40,20 +72,20 @@ class Upload extends DB{
 
 	
       if(in_array($fileActualExt, $allowed)){
-      
+      echo "name=$file_size";
            if($file_error === 0){
-                if($file_size < 1000000){
-                    $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-                    $this->destination = 'uploads/'. $fileNameNew;
-                    move_uploaded_file($fileTmpName, $this->destination );
+                if($file_size < 10000000){
+                $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+                $this->destination = '../includes/uploads/'. $fileNameNew;
+                move_uploaded_file($fileTmpName, $this->destination );
 
                     //resizing image
-                    if(file_exists($this->destination )){
+                   if(file_exists($this->destination )){
                        
                         $filePath = $this->destination;
                         $src = imagecreatefrompng($filePath);
                        
-                        list($w, $h) = getimagesize($filePath);
+                       list($w, $h) = getimagesize($filePath);
                         $max = 300;
                         $tw = $w;
                         $th = $h;
@@ -87,14 +119,9 @@ class Upload extends DB{
                         imagedestroy($tmp);
                         imagedestroy($src);
                     }
-                    $userName = $_SESSION['user'];
-
-                    $userid = $this->getUserID($userName);
-  
-                    foreach($userid as $userid){
-                       $userid = $userid['userID'];
-                    }
-                    $this->insertProduct($userid,$this->prodName, $this->prodPrice, $this->destination, $this->prodDescription, $this->prodQuantity, $this->prodCategory, $this->prodSubCategory, $this->County, $this->prodSubCounty, $this->prodTitle);
+                    
+                   
+                   // $this->insertProduct ($userid,$this->prodName, $this->prodPrice, $this->destination, $this->prodDescription, $this->prodQuantity, $this->prodCategory, $this->prodSubCategory, $this->County, $this->prodSubCounty, $this->prodTitle);
                   
                     
                 }
@@ -106,7 +133,8 @@ class Upload extends DB{
             }
         }else{
             echo "this file type is not accepted";
-        } 
+        }
+        return $this->destination; 
     
     }
 
@@ -115,7 +143,7 @@ class Upload extends DB{
        
         $query = "SELECT `userID` FROM `users` WHERE `userName` = :userName";
 
-        $stmt = $this->dbConnection()->prepare($query);
+        $stmt = $this->DB->prepare($query);
      
         $stmt->execute(array(':userName' => $userName));
     
@@ -124,11 +152,34 @@ class Upload extends DB{
         return $result;
     }
     //insert products
-    public function insertProduct($userID, $productName, $price, $imagePath,$prodDescription, $prodQuantity, $prodCategory, $prodSubCategory, $County, $prodSubCounty, $prodTitle){
+    public function insertProduct(){
+        $userName = $_SESSION['user'];
+        $userid = $this->getUserID($userName);
+        foreach($userid as $userid){
+            $userid = $userid['userID'];
+        }
+                   
+        $this->imagePath =$this->uploadProducts();
         $query = "INSERT INTO `products`(`userID`, `productName`, `price`, `imagePath`,`productDescription`,`prodQuantity`,`prodCategory`,`prodSubCategory`,`County`,`SubCounty`,`Title`) VALUES (:userID, :productName, :price, :imagePath, :prodDescription, :prodQuantity, :prodCategory, :prodSubCategory, :County, :prodSubCounty, :prodTitle)";
-        $stmt = $this->dbConnection()->prepare($query);
-        $stmt->execute(array(':userID' => $userID, ':productName' => $productName, ':price' => $price, ':imagePath' => $imagePath, ':prodDescription' => $prodDescription, ':prodQuantity' => $prodQuantity, ':prodCategory' => $prodCategory, ':prodSubCategory' => $prodSubCategory, ':County' => $County, ':prodSubCounty' => $prodSubCounty, ':prodTitle' => $prodTitle));
+        
+        $stmt = $this->DB->prepare($query);
+   
+        $stmt->execute(array(':userID' => $userid, ':productName' => $this->productName, ':price' => $this->price, ':imagePath' => $this->imagePath, ':prodDescription' => $this->prodDescription, ':prodQuantity' => $this->prodQuantity, ':prodCategory' => $this->prodCategory, ':prodSubCategory' => $this->prodSubCategory, ':County' => $this->County, ':prodSubCounty' => $this->prodSubCounty, ':prodTitle' => $this->prodTitle));
+
+        $uri = $_SERVER['REQUEST_URI'];
+        
+        echo "< style='color:red;'>Added successfully</p>";
      
+    }
+    //edit products
+    public function editProducts($prodID){
+        $this->imagePath=$this->uploadToFolder();
+        $query = "UPDATE `products` SET `productName`=:productName,`price`=:price,`imagePath`=:imagePath,`productDescription`=:productDescription,`prodQuantity`=:prodQuantity,`prodCategory`=:prodCategory,`prodSubCategory`=:prodSubCategory,`County`=:County,`SubCounty`=:SubCounty,`Title`=:Title WHERE `productID`=:productID";
+        $stmt = $this->DB->prepare($query);
+        $stmt->execute(array(':productName' => $this->prodName, ':price' => $this->prodPrice, ':imagePath' => $this->imagePath, ':productDescription' => $this->prodDescription, ':prodQuantity' => $this->prodQuantity, ':prodCategory' => $this->prodCategory, ':prodSubCategory' => $this->prodSubCategory, ':County' => $this->County, ':SubCounty' => $this->prodSubCounty, ':Title' => $this->prodTitle, ':productID' => $prodID));
+       // header("Location: ../includes/myAccount.php?page=1");
+        exit();
+        //echo "<p style='color:green;'>Edited successfully </p>";
     }
    
 }
