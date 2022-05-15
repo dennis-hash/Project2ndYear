@@ -108,13 +108,8 @@
         }
             public function myProducts(){
                 $userName = $_SESSION['user'];
-                $qquery = "SELECT `userID` from `users` where `username` = :username";
-                $stmt = $this->DB->prepare($qquery);
-                $stmt->execute(array(':username'=>$userName));
-                $result = $stmt->fetch();
-                foreach($result as $result){
-                    $user_id = $result['userID'];
-                }
+                $user_id=$_SESSION['user_id'];
+              
 
                 $query = "SELECT * FROM products WHERE userID = $user_id ";
                 $stmt = $this->DB->query($query);
@@ -150,8 +145,8 @@
                                         <td>'. $row['created_at'] . '</td>
                                         <td>'.$row['productID'] .'</td>
                                         <td>'. "<img src = '$imagepath'>" .'</td>
-                                        <td>'. "<form action='' ><button type='submit' name='edit' value='$prodid'>edit</button> <br>
-                                        <button type='submit' name='delete' value='$prodid'>delete</button>" .'</form></td>
+                                        <td>'. "<form action='' ><button type='submit' name='edit' value='$prodid' style='background-color:green; color:white; border-radius:5px;'>edit</button> <br>
+                                        <button type='submit' name='delete' value='$prodid' style='background-color:red; color:white; border-radius:5px;'>delete</button>" .'</form></td>
                                     </tr>
                                     ';
                                 echo"

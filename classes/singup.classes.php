@@ -15,9 +15,9 @@ class signup extends db{
     }
 
     public function setUser($name,$phone, $email, $password){
-        $query = "INSERT INTO `users`(`username`,`phoneNO`, `email`, `password`) VALUES (:name, :phone ,:email, :password)";
+        $query = "INSERT INTO `users`(`username`,`phoneNO`, `email`, `password`,`user_role`) VALUES (:name, :phone ,:email, :password,:user_role)";
         $stmt = $this->dbConnection()->prepare($query);
-        $stmt->execute(array(':name' => $name, ':phone'=>$phone,':email' => $email, ':password' => $password));
+        $stmt->execute(array(':name' => $name, ':phone'=>$phone,':email' => $email, ':password' => $password,':user_role'=>'user'));
         
     }   
 

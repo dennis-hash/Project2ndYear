@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap'); 
 *, *::before,* ::after{
-    box-sizing: border-box;
+   
     font-family:"Montserrat" , sans-serif  ;
 }
 body{
@@ -249,7 +249,7 @@ h1:before, h1:after {
 }
 
 /****Navbar****/
-.navlinks{
+/*.navlinks{
     background-color: #000;
     display: flex;
     justify-content: right;
@@ -260,9 +260,63 @@ h1:before, h1:after {
     justify-content: right;
     padding-right: 20px;
     background-color: red;
+}*/
+
+/*records*/
+.profile_Records{
+    display: flex;
+    width: 80%;
+   
+    
 }
+.dispRecords{
+    padding-top: 0px;
+    width: 100%;
+    background: #EEF2F4;
+    border-radius: 5px;
+   
+}
+.dispRecords table{
+    width: 100%;
+    color: black;
+    text-align: center;
+    font-size: 18px;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    
+}
+.dispRecords .records_heading{
+    background: #2e2bd8;
+    color: #fff;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #2e2bd8;
 
-
+}
+.dispRecords th {
+    height: 20px;
+    font-size: 12px;
+    padding: 8px;
+    background-color: #fff 
+}
+.dispRecords tr{
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 1px 10px rgb(0 0 0 / 20%);
+    background-color: #fff ;
+}
+.dispRecords img{
+    width: 60%;
+}
+/*img{
+ 
+    max-width: 100%;
+    height: 160px;
+    width: 200px;
+    border-radius: 3px;
+}*/
 
 @media(max-width:991px){
     html{

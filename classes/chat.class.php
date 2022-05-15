@@ -2,7 +2,8 @@
 require_once 'dbConnect.class.php';
 session_start();
 $chat = new Chat();
-class Chat{
+//$this->send_message($_POST);
+class Chat{ 
     private $sender_id;
     private $receiver_id;
     private $message;
@@ -13,29 +14,32 @@ class Chat{
         $db=new DB();
         $this->DB = $db->dbConnection();
         
-        if($_POST['action'] === 'send_message'){
-            $this->send_message($_POST);
-         }
-         if($_GET['action'] === 'get_message'){
-           echo $this->get_message();
-         }
+        if($_POST['action'] === 'getchat'){
+            $sender_id = $_POST['sender_id'];
+            $receiver_id = $_POST['seller_id'];
+            //echo "s=$sender_id, r=$receiver_id";
+            $this->get_message($sender_id, $receiver_id);
+            
+        }
+       if($_POST['action'] === 'send_message'){
+        $this->message = $_POST['message'];
+        $this->sender_id = $_POST['sender_id'];
+        $this->receiver_id = $_POST['seller_id'];
+        $this->send_message($_POST);
+            
+        }
+       
          
     }
 
-    public function send_message($data){
-       
-       $message = $data['message'];
-       $sender_id = $data['sender_id'];
-       $this->receiver_id = 123;
-       if(!empty($message)){
+    public function send_message(){
+     
+       if(!empty($this->message)){
             
             $sql = "INSERT INTO messages (`incoming_msg_id`, `outgoing_msg_id`, `msg`) VALUES (:in_id, :out_id,:msg)";
             $stmt = $this->DB->prepare($sql);
-            $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$sender_id,':msg'=>$message));
-            echo "inserted!";
-            echo "wow";
-            echo "wow1";
-            echo "wow2";
+            $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message));
+           
 
         }
         else{
@@ -44,56 +48,47 @@ class Chat{
         
     }
 
-    public function get_message(){
+    public function get_message($sender_id, $receiver_id){
+  
+        $this->sender_id = $sender_id;
+        $this->receiver_id = $receiver_id;
        
-        $this->receiver_id = 123;
-        $sql = "SELECT * FROM messages WHERE incoming_msg_id = :in_id";
+       
+        $sql ="SELECT * FROM `messages` WHERE `incoming_msg_id` = :in_id AND `outgoing_msg_id` = :out_id OR `incoming_msg_id` = :out_id AND `outgoing_msg_id` = :in_id ORDER BY id";
         $stmt = $this->DB->prepare($sql);
-        $stmt->execute(array(':in_id'=>$this->receiver_id));
-        $result = $stmt->fetchAll();
-        if(!empty($result)){
+        $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id));
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $num_rows = $stmt->rowCount();
+        if($num_rows > 0){
             foreach($result as $row){
-                $this->output .= "<div class='outgoing_msg'>
-                                <div class='sent_msg'>
-                                    <p>".$row['msg']."</p>
-                                    <span class='time_date'> 11:01 AM    |    June 9</span>
-                                </div>
-                            </div>";
-                
-            }
-        }else{
-            $this->output = "No messages";
-        }
-        return $this->output;
-    
-        /*$sql = "SELECT * FROM messages LEFT JOIN users ON users.unserID = messages.outgoing_msg_id
-                WHERE (outgoing_msg_id = {$this->sender_id} AND incoming_msg_id = {$this->receiver_id})
-                OR (outgoing_msg_id = {$this->receiver_id} AND incoming_msg_id = {$this->sender_id}) ORDER BY msg_id";*/
-        //$result = $this->DB->query($sql);
-        //$num_row = $result->rowCount();
-        /*if($num_row > 0){
-            while($row = $result->fetch(PDO::FETCH_GROUP |PDO::FETCH_ASSOC)){
                 if($row['outgoing_msg_id'] === $this->sender_id){
-                    $output .= '<div class="chat outgoing">
+                  
+                    $this->output .= '<div class="chat outgoing">
                                 <div class="details"> 
-                                    <p>'. $row['msg'] .'</p>
+                                    <p>'.$row['msg'].'</p>
                                 </div>
                                 </div>';
-                    echo $output;
+                                echo $this->output;
+                   
                 }else{
-                    $output .= '<div class="chat incoming">
-                                <img src="php/images/'.$row['img'].'" alt="">
+                   
+                    $this->output .= '<div class="chat incoming">
+                               <!-- <img src="php/images/'.$row['img'].'" alt="">-->
                                 <div class="details">
-                                    <p>'. $row['msg'] .'</p>
+                                    <p>' .$row['msg'] .'</p>
+                                    
                                 </div>
                                 </div>';
-                                echo $output;
+                                echo $this->output;
+                                
+                                
                 }
         }
     }else{
-        $output .= '<div class="text">No messages are available. Once you send message they will appear here.</div>';
-        echo $output;
-    }*/
+        
+        $this->output .= '<div class="text">No messages are available. Once you send message they will appear here.</div>';
+        echo $this->output;
+    }
    
 }
 

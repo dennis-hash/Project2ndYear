@@ -1,5 +1,10 @@
 <?php
 include "header.php";
+session_start();
+if(!isset($_SESSION['user'])){
+    header('location: login.php?error=notLoggedIn ');
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -11,24 +16,40 @@ include "header.php";
   <title>Document</title>
  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://kit.fontawesome.com/efb0967787.js" crossorigin="anonymous"></script>
+  
 </head>
 <body>
+  <?php
+    $user = $_SESSION['user'];
+    $user_id = $_SESSION['user_id'];
+  ?>
 <div class="containerr">
-  <div class="a"></div>
+  <div class="a">
+ 
+  </div>
   <div class="right">
   <div class="contacts"></div>
-  <div class="priceOffer">
-    <form action="../classes/product_page.class.php" method="POST">
-      <input type="text" placeholder="price">
-      <input type="submit" value="send">
-    </form>
-  </div>
+ 
+<div><button id="mybutton" onclick="get_chat()" style="border:none; width: 100%; background-color:blue; font-size:16px; color:white; border-radius:5px; margin-top:10px; height:40px;">Chat with Farmer</button></div>
   <div class="chat">
       <section class="chat-area">
-        <form action="#" class="typing-area">
-          <input type="text" class="incoming_id" name="incoming_id" value="" hidden>
-          <input type="text" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
-          <button><i class="">send</i></button>
+        <header>
+          <a href="use.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+          <img src="php/images/<?php //echo $row['img']; ?>" alt="">
+          <div class="details">
+            <span><?php // echo $row['fname']. " " . $row['lname'] ?></span>
+            <p><?php // echo $row['status']; ?></p>
+          </div>
+        </header>
+        <div class="chat-box">
+
+        </div>
+        <form action="../classes/chat.class.php" class="typing-area" name="form" id="form" method="post">
+          <input type="text" id="sender_id" class="incoming_id" name="incoming_id" value="<?php echo $user_id?>" hidden>
+          <input type="text" id="message" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
+          <input type="submit" class="icon" src="../images/paper-plane-solid.svg" alt="" style="width: 55px; background-image: url(../images/paper-plane-solid.svg); background: #0D5BE1;">
+          
         </form>
       </section>
   </div>
@@ -41,10 +62,14 @@ include "header.php";
   
 </body>
 <script>
-  // getall();
-  // post_data();
-   getcontacts();
+  
+    var page_url = window.location.href;
+    var page_url_array = page_url.split('=');
+    var title = page_url_array[1];
+    var created_at = page_url_array[2];
+    var seller_id = page_url_array[3];
    post_data();
+   $('.chat').hide();
     function post_data(){
      
       url = '../classes/product_page.class.php';
@@ -59,13 +84,15 @@ include "header.php";
            $('.a').html(data);
            
       });
-
-      //$.get('../classes/product_page.class.php',{ action:'getcontacts'})
-      //.done(function(data){
-      //$('.contacts').html(data);
+      //getchat();
+      //var posting_to_chat = $.post( url2, { action: 'pageurl', id1:title ,id2:created_at });
+      //posting_to_chat.done(function( data ) {
+      //     $('.chat').html(data);
+      //     
       //});
+
     
-  }
+    }
 
 
   //getprice_offer();
@@ -76,14 +103,8 @@ include "header.php";
       });
   }
   
-  //getchat();
-  function getchat(){
-    $.get('../classes/product_page.class.php',{ action:'chat'})
-      .done(function(data){
-      $('.chat').html(data);
-      });
-  }
-  //getcontacts();
+
+  getcontacts();
   function getcontacts(){
     $.get('../classes/product_page.class.php',{ action:'getcontacts'})
       .done(function(data){
@@ -97,7 +118,126 @@ include "header.php";
       $('.payment').html(data);
       });
   } 
+  //get_chat()
+  function get_chat(){
+    
+    $('.chat').toggle(/*change text of button to hide chat */ function(){
+      let text = $('#mybutton').html();
+      if(text == 'Hide Chat'){
+        $('#mybutton').html('Chat with Farmer');
+      }else{
+        $('#mybutton').html('Hide Chat');
+      }
 
-  
+    });
+      
+    
+    var page_url = window.location.href;
+    var page_url_array = page_url.split('=');
+    var seller_id = page_url_array[3];
+    var sender_id = $('#sender_id').val();
+    var seller_id = seller_id ;
+    var url = '../classes/chat.class.php';
+    var posting = $.post( url, { action: 'getchat', sender_id:sender_id, seller_id:seller_id });
+    posting.done(function( data ) {
+        
+         $('.chat-box').html(data);
+
+         
+    });
+    
+
+  }
+
+  $('form').submit(function(event){
+    event.preventDefault();
+    var $form = $(this);
+    url = $form.attr('action');
+    var action = 'send_message';
+     send(url, action);
+     get_chat()
+    });
+    function send(url,action){
+      var formData = new FormData($('form')[0]);
+      formData.append('message', $('#message').val());
+      formData.append('sender_id', $('#sender_id').val());
+      formData.append('action', action);
+      formData.append('seller_id', seller_id);
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        async: false,
+        success: function (data) {
+          $('.chat-box').html(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+     
+      chatBox = document.querySelector(".chat-box");
+      chatBox.scrollBottom = chatBox.scrollHeight;
+      
+    }
+
+   /* function insert(url,action){
+        var page_url = window.location.search.substring(1);
+        var parameter = page_url.split('=');
+        var action2 = parameter[0];
+        var index = parameter[1];
+        console.log(action);
+        console.log(index);
+        //var posting = $.post( url, { action:'edit', a:action ,index:index });
+        var file= $('#image')[0].files;
+        var formData = new FormData();
+        formData.append('image', file[0]);
+        formData.append('product_name', $('#product_name').val());
+        formData.append('product_quantity', $('#product_quantity').val());
+        formData.append('product_price', $('#product_price').val());
+        formData.append('textarea', $('#textarea').val());
+        formData.append('category', $('#category').val());
+        formData.append('county', $('#county').val());
+        formData.append('subcounty', $('#subcounty').val());
+        formData.append('index', index);
+        formData.append('edit', action2);
+        formData.append('action', action);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                $('.error').html(data);
+                //alert(data);
+                //window.location.href = "../pages/addProduct.php";
+            }
+        });
+    }*/
+    function buy(){
+     console.log("buy");
+     var posting = $.post( url, { action: 'buy'});
+      posting.done(function( data ) {
+          
+          $('.a').html(data);
+
+          
+      });
+      //$('.a').load(" .a");
+    }
+    function handleFormSubmit(){
+      console.log("i made it");
+      var value = $('#action').val();
+      console.log(value);
+      
+    }
+ function addPrice(){
+   var price = $('#total').val();if (price <= 0){ $('#total').val(1);}
+   var amount = $('#quantity').val();
+  var total = price * amount;
+  $('#total').val(total);
+
+ }
 </script>
 </html>

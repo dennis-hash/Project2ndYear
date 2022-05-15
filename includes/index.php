@@ -3,9 +3,15 @@
     if (isset($_SESSION['user']))
     {
         $user = $_SESSION['user'];
-        $loggedin = TRUE;
-        
+        $loggedin = TRUE;  
     }
+    if($_SESSION['user_role'] === 'admin'){
+        $admin = TRUE;
+    }
+    else{
+        $admin = FALSE;
+    }
+    
    
 
 ?>
@@ -33,7 +39,7 @@
        
         
             <?php
-                if($loggedin){
+                if($loggedin && !$admin){
              
                 echo<<< _INIT
                 <li><a href="index.php">Home</a></li>
@@ -41,8 +47,9 @@
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>
                _INIT;
-                }
-                else{
+                }elseif($loggedin && $admin){
+                   header("Location: admin.php");
+                }else{
         
             echo <<< _END
                 <li><a href="singup.php">Register</a></li>
@@ -94,10 +101,9 @@
   });
 
   function search(url,action){
-      
     var post = $.post(url, {
         search: $('.search').val(),
-        
+       
         action:action
     
     });

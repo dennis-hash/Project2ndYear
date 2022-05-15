@@ -200,9 +200,7 @@ if(!isset($_SESSION['user'])){
         var parameter = page_url.split('=');
         var action2 = parameter[0];
         var index = parameter[1];
-        console.log(action);
-        console.log(index);
-        //var posting = $.post( url, { action:'edit', a:action ,index:index });
+       
         var file= $('#image')[0].files;
         var formData = new FormData();
         formData.append('image', file[0]);
@@ -224,6 +222,17 @@ if(!isset($_SESSION['user'])){
             processData: false,
             success: function(data){
                 $('.error').html(data);
+                $('#county').val('');
+                $('#subcounty').val('');
+                $('#product_name').val('');
+                $('#product_quantity').val('');
+                $('#product_price').val('');
+                $('#textarea').val('');
+                $('#category').val('');
+                $('#image').val('');
+                $('#county').val('');
+                $('#subcounty').val('');
+               
                 //alert(data);
                 //window.location.href = "../pages/addProduct.php";
             }

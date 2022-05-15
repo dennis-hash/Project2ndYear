@@ -67,7 +67,7 @@ class Search extends DB{
 
 $d = new dd();
 
-$d->searched_prod();
+//$d->searched_prod();
 
 
 ?>

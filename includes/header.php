@@ -3,8 +3,13 @@
     if (isset($_SESSION['user']))
     {
         $user = $_SESSION['user'];
-       
+        $loggedin = TRUE;  
         
+    } if($_SESSION['user_role'] === 'admin'){
+        $admin = TRUE;
+    }
+    else{
+        $admin = FALSE;
     }
 ?>
 <!DOCTYPE html>
@@ -33,7 +38,7 @@
       </div>
        
             <?php
-                if($loggedin){
+                if($loggedin && !$admin){
              
                 echo<<< _INIT
                 <li><a href="index.php">Home</a></li>
@@ -41,6 +46,14 @@
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>
                _INIT;
+                }elseif($loggedin && $admin){
+                   echo '<li><a class="" href="index.php">Home</a></li>
+                   <li><a class="" href="myAccount.php">My account</a></li>
+                   <li><a class="" href="AddProducts.php">SELL</a></li>
+                   <li><a class="view_users" href="../classes/admin.class.php">View users</a></li>
+                   <li><a class="view_prod" href="../classes/admin.class.php">View Products</a></li>
+                   <li><a class="add_admin" href="../classes/admin.class.php">Add admin</a></li>
+                   <li><a class="" href="logout.php">Logout</a></li>';
                 }
                 else{
         
@@ -67,6 +80,8 @@
             <li><a href="#">Contacts</a></li>
         </ul>
     </aside>
+
+    
    
 </body>
 <script src="main.js"></script> 

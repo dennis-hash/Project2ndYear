@@ -3,7 +3,7 @@ session_start();
  require_once 'dbConnect.class.php';
        
 
-        $uploadProduct = new Upload();
+ $uploadProduct = new Upload();
 
 class Upload {
     private $destination;
@@ -35,6 +35,7 @@ class Upload {
         if($_POST['edit']==='edit'){
             $this->editProducts($_POST['index']);
         }else{
+           
             $this->uploadProducts();   
         }
   
@@ -72,7 +73,7 @@ class Upload {
 
 	
       if(in_array($fileActualExt, $allowed)){
-      echo "name=$file_size";
+     
            if($file_error === 0){
                 if($file_size < 10000000){
                 $fileNameNew = uniqid('', true) . "." . $fileActualExt;
@@ -154,21 +155,17 @@ class Upload {
     //insert products
     public function insertProduct(){
         $userName = $_SESSION['user'];
-        $userid = $this->getUserID($userName);
+        $userid = $_SESSION['user_id'];
         foreach($userid as $userid){
             $userid = $userid['userID'];
         }
-                   
-        $this->imagePath =$this->uploadProducts();
+        //           
+        $this->imagePath=$this->uploadToFolder();
+      //
         $query = "INSERT INTO `products`(`userID`, `productName`, `price`, `imagePath`,`productDescription`,`prodQuantity`,`prodCategory`,`prodSubCategory`,`County`,`SubCounty`,`Title`) VALUES (:userID, :productName, :price, :imagePath, :prodDescription, :prodQuantity, :prodCategory, :prodSubCategory, :County, :prodSubCounty, :prodTitle)";
-        
         $stmt = $this->DB->prepare($query);
-   
-        $stmt->execute(array(':userID' => $userid, ':productName' => $this->productName, ':price' => $this->price, ':imagePath' => $this->imagePath, ':prodDescription' => $this->prodDescription, ':prodQuantity' => $this->prodQuantity, ':prodCategory' => $this->prodCategory, ':prodSubCategory' => $this->prodSubCategory, ':County' => $this->County, ':prodSubCounty' => $this->prodSubCounty, ':prodTitle' => $this->prodTitle));
-
-        $uri = $_SERVER['REQUEST_URI'];
-        
-        echo "< style='color:red;'>Added successfully</p>";
+        $stmt->execute(array(':userID'=>$userid, ':productName'=>$this->prodName, ':price'=>$this->prodPrice, ':imagePath'=>$this->imagePath, ':prodDescription'=>$this->prodDescription, ':prodQuantity'=>$this->prodQuantity, ':prodCategory'=>$this->prodCategory, ':prodSubCategory'=>$this->prodSubCategory, ':County'=>$this->County, ':prodSubCounty'=>$this->prodSubCounty, ':prodTitle'=>$this->prodTitle));
+        echo "<p style='color:green;'>Added successfully</p>";
      
     }
     //edit products
@@ -179,7 +176,7 @@ class Upload {
         $stmt->execute(array(':productName' => $this->prodName, ':price' => $this->prodPrice, ':imagePath' => $this->imagePath, ':productDescription' => $this->prodDescription, ':prodQuantity' => $this->prodQuantity, ':prodCategory' => $this->prodCategory, ':prodSubCategory' => $this->prodSubCategory, ':County' => $this->County, ':SubCounty' => $this->prodSubCounty, ':Title' => $this->prodTitle, ':productID' => $prodID));
        // header("Location: ../includes/myAccount.php?page=1");
         exit();
-        //echo "<p style='color:green;'>Edited successfully </p>";
+        echo "<p style='color:green;'>Edited successfully </p>";
     }
    
 }
