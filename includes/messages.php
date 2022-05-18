@@ -121,8 +121,9 @@ foreach($num_unique as $num){
 
         </div>
         <form action="../classes/chat.class.php" class="typing-area" name="form" id="form" method="post">
-        <input type="text" id="sender_id" class="incoming_id" name="" value="<?php echo $in_id?>" hidden>
-          <input type="text" id="seller_id" class="incoming_id" name="" value="<?php echo $user_id?>" hidden>
+        <input type="text" id="sender_id" class="" name="" value="<?php echo $in_id?>" hidden>
+          <input type="text" id="seller_id" class="" name="" value="<?php echo $user_id?>" hidden>
+          <input type="text" id="prod_id" class="" name="" value="<?php echo $prod_id?>" hidden>
           <input type="text" id="message" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
           <input type="submit" class="icon"  value="send" style="width: 55px; background: #0D5BE1;">
           
@@ -133,13 +134,12 @@ foreach($num_unique as $num){
 </body>
 <script>
    function show_chat(sender_id,my_id){
-       console.log("myid"+my_id);
-       console.log("senderid"+sender_id);
+       
        var url = '../classes/chat.class.php';
-        var posting = $.post( url, { action: 'getchat', sender_id:sender_id, seller_id:my_id });
+        var posting = $.get( url, { action: 'getchat', sender_id:sender_id, seller_id:my_id });
         posting.done(function( data ) {
-            
-         $('.chat-box').html(data);
+        
+        $('.chat-box').html(data);
 
          
     });
@@ -150,35 +150,36 @@ foreach($num_unique as $num){
     url = $form.attr('action');
     var action = 'send_message';
      send(url, action);
-     get_chat()
+     show_chat(sender_id,my_id)
     });
     function send(url,action){
         console.log($('#sender_id').val());
         console.log($('#seller_id').val());
 
-      //var formData = new FormData($('form')[0]);
-      //formData.append('message', $('#message').val());
-      //formData.append('sender_id', $('#sender_id').val());
-      //formData.append('seller_id', $('#seller_id').val());
-      //formData.append('action', action);
-      ////formData.append('seller_id', seller_id);
+      var formData = new FormData($('form')[0]);
+      formData.append('message', $('#message').val());
+      formData.append('sender_id', $('#sender_id').val());
+      formData.append('seller_id', $('#seller_id').val());
+      formData.append('prod_id', $('#prod_id').val());
+      formData.append('action', action);
+      //formData.append('seller_id', seller_id);
       //formData.append('prod_id', prod_id);
-   //
-      //$.ajax({
-      //  url: url,
-      //  type: 'POST',
-      //  data: formData,
-      //  async: false,
-      //  success: function (data) {
-      //    $('.chat-box').html(data);
-      //  },
-      //  cache: false,
-      //  contentType: false,
-      //  processData: false
-      //});
-     
-      //chatBox = document.querySelector(".chat-box");
-      //chatBox.scrollBottom = chatBox.scrollHeight;
+   
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,
+        async: false,
+        success: function (data) {
+          //$('.chat-box').html(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      });
+
+      chatBox = document.querySelector(".chat-box");
+      chatBox.scrollBottom = chatBox.scrollHeight;
       
     }
 

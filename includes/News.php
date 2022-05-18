@@ -52,16 +52,9 @@
   
 </body>
 <script>
-//    getall();
-//    function getall(){
-//        $.get('../classes/admin.class.php',{ action:'article'})
-//        .done(function(data){
-//            $('.article').html(data);
-//        });
-//       
-//    }
+
 function full_article(id){
-    console.log("iddd",id);
+    
     $.get('../classes/admin.class.php',{ action:'full_article', id:id})
     .done(function(data){
         $('.cont').html(data);

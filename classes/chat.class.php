@@ -14,9 +14,9 @@ class Chat{
         $db=new DB();
         $this->DB = $db->dbConnection();
         
-        if($_POST['action'] === 'getchat'){
-            $sender_id = $_POST['sender_id'];
-            $receiver_id = $_POST['seller_id'];
+        if($_GET['action'] === 'getchat'){
+            $sender_id = $_GET['sender_id'];
+            $receiver_id = $_GET['seller_id'];
             //echo "s=$sender_id, r=$receiver_id";
             $this->get_message($sender_id, $receiver_id);
             
