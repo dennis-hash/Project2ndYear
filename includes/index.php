@@ -43,6 +43,8 @@
              
                 echo<<< _INIT
                 <li><a href="index.php">Home</a></li>
+                <li><a href="News.php">News</a></li>
+                <li><a href="messages.php">My Messages</a></li>
                 <li><a href="myAccount.php">My Acount</a></li>
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>
@@ -54,6 +56,7 @@
             echo <<< _END
                 <li><a href="singup.php">Register</a></li>
                 <li><a href="login.php">Login</a></li>
+                <li><a href="News.php">News</a></li>
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="myAccount.php">My Acount</a></li>
                 

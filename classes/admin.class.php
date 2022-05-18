@@ -28,7 +28,12 @@ class Admin{
         $this-> view_products();
        }elseif($_GET['action']=='delete_product'){
         $this-> delete_product($_GET['id']);
-       }elseif($_GET['action']=='edit_users'){
+       }elseif($_GET['action']=='add_article'){
+        $this-> add_article();
+       // $this->updateUser($_GET['id']);
+
+       }elseif($_GET['action']=='full_article'){
+        $this-> full_article($_GET['id']);
        // $this->updateUser($_GET['id']);
 
        }elseif($_POST['action']=='add_admin'){
@@ -205,6 +210,72 @@ class Admin{
         //$stmt = $this->DB->prepare($query);
         //$stmt->execute(array(':name' => $username, ':phone'=>$phone,':email' => $email, ':password' => $pass,':user_role'=>'admin'));
         //echo "Added Successfully";
+       
     }
+    public function add_article(){
+        echo "
+        <div class='add_article'>
+        <form  class='add_article_form' action='/' method='post' name='form' target='_blank'
+        onSubmit='insert_article(this); return false;'enctype='multipart/form-data'>
+            <div class='a1'>
+            <p>Article Title</p>
+            <input type='text' id='title' name='title' placeholder='Article Title'>
+            </div>
+            <div  class='a1'>
+            <p>Article Content</p>
+            <textarea id='content' name='content' placeholder='Article Content'  cols='160' rows='20'></textarea>
+            </div>
+            <div  class='a1'>
+            <p>Article Image</p>
+            <input type='file' id='image' name='image' placeholder='Article Image'>
+            </div>
+            <div  class='a1'>
+            <p>Author</p>
+            <input type='text' id='author' name='author' placeholder='Author'>
+            </div>
+            <div  class='a1'>
+            <p>Date</p>
+            <input type='date' id='date' name='date'>
+            </div>
+            <div  class='a1'>
+            <input type='submit' name='submit' value='Add Article'>
+            </div>
+
+        </form>
+        </div>
+
+        ";
+
+    }
+    public function full_article($id){
+        $query = "SELECT * FROM `articles` WHERE `id`=:id";
+        $stmt = $this->DB->prepare($query);
+        $stmt->execute(array(':id' => $id));
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach($result as $row){
+            $this->articleID = $row['articleID'];
+            $this->title = $row['title'];
+            $this->content = $row['content'];
+            $this->image = $row['imagepath'];
+            $this->author = $row['author'];
+            $this->date = $row['date'];
+            $this->created_at = $row['created_at'];
+        }
+        echo "
+        <div class='full_article'>
+        <div class='article_image'>
+        <img src='$this->image' alt='$this->title'>
+        </div>
+        <div class='article_content'>
+        <h1>$this->title</h1>
+        <pre>$this->content</pre>
+        <p>Author:$this->author</p>
+        <p>Date:$this->created_at</p>
+        </div>
+        </div>
+        ";
+    }
+ 
 }
 ?>
+

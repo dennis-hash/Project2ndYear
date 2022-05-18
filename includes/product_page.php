@@ -35,20 +35,19 @@ if(!isset($_SESSION['user'])){
   <div class="chat">
       <section class="chat-area">
         <header>
-          <a href="use.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+          <!--<a href="use.php" class="back-icon"><i class="fas fa-arrow-left"></i></a>
           <img src="php/images/<?php //echo $row['img']; ?>" alt="">
           <div class="details">
             <span><?php // echo $row['fname']. " " . $row['lname'] ?></span>
             <p><?php // echo $row['status']; ?></p>
-          </div>
+          </div>-->
         </header>
-        <div class="chat-box">
-
-        </div>
+      <!--<div class="chat-box">
+      </div>-->
         <form action="../classes/chat.class.php" class="typing-area" name="form" id="form" method="post">
           <input type="text" id="sender_id" class="incoming_id" name="incoming_id" value="<?php echo $user_id?>" hidden>
           <input type="text" id="message" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
-          <input type="submit" class="icon" src="../images/paper-plane-solid.svg" alt="" style="width: 55px; background-image: url(../images/paper-plane-solid.svg); background: #0D5BE1;">
+          <input type="submit" class="icon"  value="send" style="width: 55px; background: #0D5BE1;">
           
         </form>
       </section>
@@ -68,6 +67,9 @@ if(!isset($_SESSION['user'])){
     var title = page_url_array[1];
     var created_at = page_url_array[2];
     var seller_id = page_url_array[3];
+    var prod_id = page_url_array[4];
+ 
+    console.log("prrr"+prod_id);
    post_data();
    $('.chat').hide();
     function post_data(){
@@ -77,8 +79,10 @@ if(!isset($_SESSION['user'])){
       var page_url_array = page_url.split('=');
       var title = page_url_array[1];
       var created_at = page_url_array[2];
+      var prod_id = page_url_array[4];
       console.log(title);
       console.log(created_at);
+      console.log(prod_id);
       var posting = $.post( url, { action: 'pageurl', id1:title ,id2:created_at });
       posting.done(function( data ) {
            $('.a').html(data);
@@ -135,8 +139,10 @@ if(!isset($_SESSION['user'])){
     var page_url = window.location.href;
     var page_url_array = page_url.split('=');
     var seller_id = page_url_array[3];
+    var prod_id = page_url_array[4];
     var sender_id = $('#sender_id').val();
     var seller_id = seller_id ;
+    console.log("prod id"+prod_id);
     var url = '../classes/chat.class.php';
     var posting = $.post( url, { action: 'getchat', sender_id:sender_id, seller_id:seller_id });
     posting.done(function( data ) {
@@ -163,6 +169,8 @@ if(!isset($_SESSION['user'])){
       formData.append('sender_id', $('#sender_id').val());
       formData.append('action', action);
       formData.append('seller_id', seller_id);
+      formData.append('prod_id', prod_id);
+   
       $.ajax({
         url: url,
         type: 'POST',
@@ -176,8 +184,8 @@ if(!isset($_SESSION['user'])){
         processData: false
       });
      
-      chatBox = document.querySelector(".chat-box");
-      chatBox.scrollBottom = chatBox.scrollHeight;
+      //chatBox = document.querySelector(".chat-box");
+      //chatBox.scrollBottom = chatBox.scrollHeight;
       
     }
 
@@ -216,7 +224,7 @@ if(!isset($_SESSION['user'])){
         });
     }*/
     function buy(){
-     console.log("buy");
+     console.log("sell");
      var posting = $.post( url, { action: 'buy'});
       posting.done(function( data ) {
           
@@ -227,17 +235,39 @@ if(!isset($_SESSION['user'])){
       //$('.a').load(" .a");
     }
     function handleFormSubmit(){
-      console.log("i made it");
-      var value = $('#action').val();
-      console.log(value);
+    
+        console.log("handle");
+        var formData = new FormData();
+        formData.append('sender_id', $('#sender_id').val());
+        formData.append('name', $('#productname').val());
+        formData.append('amount', $('#quantity').val());
+        formData.append('phone', $('#phone').val());
+        formData.append('email', $('#email').val());
+        formData.append('address', $('#address').val());
+        formData.append('total', $('#total').val());
+        formData.append('payment', $('.payment').val());
+        formData.append('action', 'send_buy_product_message');
+        formData.append('seller_id', seller_id);
+        formData.append('prod_id', prod_id);
+        $.ajax({
+            url: '../classes/chat.class.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                $('.error').html(data);
+                //alert(data);
+                //window.location.href = "../pages/addProduct.php";
+            }
+        });
       
     }
  function addPrice(){
-   var price = $('#total').val();if (price <= 0){ $('#total').val(1);}
-   var amount = $('#quantity').val();
+   var price = $('#total').val();
+   var amount = $('#quantity').val()
   var total = price * amount;
   $('#total').val(total);
-
  }
 </script>
 </html>

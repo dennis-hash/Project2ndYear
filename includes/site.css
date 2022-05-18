@@ -13,6 +13,7 @@ body{
 .log{
     padding-top: 15px;
 }
+
 .loginbox{
     
     display: flex;
@@ -317,6 +318,7 @@ h1:before, h1:after {
     width: 200px;
     border-radius: 3px;
 }*/
+
 
 @media(max-width:991px){
     html{

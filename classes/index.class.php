@@ -52,6 +52,7 @@
             
            foreach($results as $row){
                  $this->id=$row['userID'];
+                 $this->prodid=$row['productID'];
                 $this->productName = $row['productName'];
                 $this->productPrice = $row['price'];
                 $this->productImage = $row['imagePath'];
@@ -66,7 +67,7 @@
                 $curr_time=new DateTime(date('Y-m-d H:i:s'));
                 $this->difference=$created_at->diff($curr_time);
                 $this->difference = $this->difference->format('%H');
-                echo"<a class='product' href='../includes/product_page.php?title=".$this->productName."=".$this->created_at."=".$this->id."'>
+                echo"<a class='product' href='../includes/product_page.php?title=".$this->productName."=".$this->created_at."=".$this->id."=". $this->prodid."'>
     
                     <!-- <div class = 'prodImage'> <img src='$this->productImage' alt='$this->productName'> </div>-->
                     <div class='prod'>

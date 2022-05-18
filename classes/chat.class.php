@@ -25,10 +25,13 @@ class Chat{
         $this->message = $_POST['message'];
         $this->sender_id = $_POST['sender_id'];
         $this->receiver_id = $_POST['seller_id'];
-        $this->send_message($_POST);
+        $this->prod_id = $_POST['prod_id'];
+        $this->send_message();
             
         }
-       
+        if($_POST['action'] === 'send_buy_product_message'){
+            $this->buy_product_message($_POST);
+        }
          
     }
 
@@ -36,17 +39,43 @@ class Chat{
      
        if(!empty($this->message)){
             
-            $sql = "INSERT INTO messages (`incoming_msg_id`, `outgoing_msg_id`, `msg`) VALUES (:in_id, :out_id,:msg)";
+            $sql = "INSERT INTO messages (`incoming_msg_id`, `outgoing_msg_id`, `msg`,`prod_id`) VALUES (:in_id, :out_id,:msg, :prod_id)";
             $stmt = $this->DB->prepare($sql);
-            $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message));
+            $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message, ':prod_id'=>$this->prod_id));
+            //echo"(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message,':prod_id'=>$this->prod_id))";
            
-
         }
         else{
             
         }
         
     }
+    public function buy_product_message($data){
+        $this->name = $data['name'];
+        $this->amount = $data['amount'];
+        $this->phone = $data['phone'];
+        $this->email = $data['email'];
+        $this->address = $data['address'];
+        $this->total = $data['total'];
+        $this->payment = $data['payment'];
+        $this->message =  "Product:".$this->name .' '."Amount:".$this->amount .' '."Phone:". $this->phone.' '."Email:".$this->email.' '."Location:".$this->address.' '."Total:".$this->total;
+        $this->sender_id = $data['sender_id'];
+        $this->receiver_id = $data['seller_id'];
+        $this->prod_id = $data['prod_id'];
+     
+        if(!empty($this->message)){
+             
+             $sql = "INSERT INTO messages (`incoming_msg_id`, `outgoing_msg_id`, `msg`,`prod_id`) VALUES (:in_id, :out_id,:msg, :prod_id)";
+             $stmt = $this->DB->prepare($sql);
+             $stmt->execute(array(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message, ':prod_id'=>$this->prod_id));
+             //echo"(':in_id'=>$this->receiver_id,':out_id'=>$this->sender_id,':msg'=>$this->message,':prod_id'=>$this->prod_id))";
+            
+         }
+         else{
+             
+         }
+         
+     }
 
     public function get_message($sender_id, $receiver_id){
   
@@ -60,7 +89,7 @@ class Chat{
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $num_rows = $stmt->rowCount();
         if($num_rows > 0){
-            foreach($result as $row){
+           foreach($result as $row){
                 if($row['outgoing_msg_id'] === $this->sender_id){
                   
                     $this->output .= '<div class="chat outgoing">
@@ -86,8 +115,8 @@ class Chat{
         }
     }else{
         
-        $this->output .= '<div class="text">No messages are available. Once you send message they will appear here.</div>';
-        echo $this->output;
+        //$this->output .= '<div class="text">No messages are available. Once you send message they will appear here.</div>';
+       // echo $this->output;
     }
    
 }

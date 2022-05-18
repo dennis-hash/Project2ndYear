@@ -42,6 +42,8 @@
              
                 echo<<< _INIT
                 <li><a href="index.php">Home</a></li>
+                <li><a href="News.php">News</a></li>
+                <li><a href="messages.php">My Messages</a></li>
                 <li><a href="myAccount.php">My Acount</a></li>
                 <li><a href="AddProducts.php">SELL</a></li>
                 <li><a href="logout.php">Logout</a></li>
@@ -53,6 +55,7 @@
                    <li><a class="view_users" href="../classes/admin.class.php">View users</a></li>
                    <li><a class="view_prod" href="../classes/admin.class.php">View Products</a></li>
                    <li><a class="add_admin" href="../classes/admin.class.php">Add admin</a></li>
+                   <li><a href="News.php">News</a></li>
                    <li><a class="" href="logout.php">Logout</a></li>';
                 }
                 else{

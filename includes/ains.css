@@ -79,6 +79,20 @@ header{
     text-decoration: none;
     
 }
+.addProduct{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #2e2bd8;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #2e2bd8;
+    font-size: 20px;
+    text-decoration: none;
+}
 .sidebar{
     position: fixed;
     left: 0;
@@ -159,7 +173,7 @@ header{
 .prodlocation{grid-area:loc;}
 .prodcategory{grid-area:cat;}
 .prodtime{grid-area:time;}
-icon
+
 .prod{
     display:grid;
     grid-template-areas: 
@@ -439,7 +453,7 @@ icon
 
 }
 /* Chat Area CSS Start */
-/*.chat-area header{
+.chat-area header{
     display: flex;
     align-items: center;
     padding: 18px 30px;
@@ -456,7 +470,7 @@ icon
   .chat-area header .details span{
     font-size: 17px;
     font-weight: 500;
-  }*/
+  }
   .chat-box{
     position: relative;
     min-height: 310px;
@@ -533,7 +547,7 @@ icon
     border-radius: 5px 0 0 5px;
   }
   .typing-area .button1{
-    color: #fff;
+    color: #0D5BE1;
     width: 55px;
     border: none;
     outline: none;
@@ -631,12 +645,20 @@ icon
    
  }
   .buy_form .name{
+    width: 100px;
     grid-column: 1/-1;
  
   }
   .buy_form .price{
+    width: auto;
     grid-column: 1/-1;
    
+}
+.buy_form .button{
+  width: auto;
+    grid-column: 1/-1;
+   
+
 }
 
 
@@ -646,6 +668,134 @@ icon
     font-weight: 500;
     margin-bottom: 5px;
     display: block;
+}
+.add_article{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.add_article .add_article_form{
+ 
+  background-color: #fff;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
+  border-radius: 5px;
+  border: none;
+  height: 100%;
+  width: 80%;
+padding-left: 5px;
+}
+.add_article_form input{
+  width: 90%;
+}
+.add_article_form .a1{
+ line-height: 10px;
+
+}
+.add_article_form input[type ="text"]{
+  
+  border: 1px solid #ced4da;
+  background: transparent;
+  background-color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 30px;
+  border-radius: 0.25rem;
+  background-clip: padding-box;
+  color:#495057;
+  font-size: 1.0rem;
+
+}
+.add_article_form input[type="submit"]{
+  border: solid;
+  border-width: 1px;
+  border-color:#2e2bd8 ;
+  outline: none;
+  height: 30px;
+  background: #2e2bd8;
+  color: #fff;
+  font-size: 15px;
+  border-radius:10px ;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.add_article_form input[type="submit"]:hover{
+  cursor: pointer;
+  background:#fff;
+  transition-duration:0.3s;
+  color: #000;
+}
+.cont .full_article{
+  margin-left: 90px;
+  width: 90%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 20%);
+  border-radius: 5px;
+
+  
+
+}
+.article_content{
+ 
+  
+}
+.article_content pre{
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  
+  white-space: pre-wrap;
+}
+.cont .full_article img{
+  width: auto;
+  height: auto;
+}
+.connn{
+  
+  padding-top: 100px;
+  padding-left: 100px;
+  height: 100%;
+  display: flex;
+
+}
+.connn .no_chats{
+ 
+  margin-right: auto;
+  text-decoration: none;
+  color: #000;
+  width: 200px;
+  border-radius: 5px;
+  background-color: #fff;
+ 
+  box-shadow: 0 2px 3px rgb(0 0 0 / 30%);
+}
+.connn .no_chats a{
+ background-color: black;
+  text-decoration: none;
+ 
+}
+.connn .no_chats .sent_msg { 
+ border-radius: 6px;   
+ 
+}
+.connn .no_chats .sent_msg p{
+height: 30px;
+border-radius: 6px; 
+text-align: center;
+background-color: burlywood;
+text-decoration: none;
+}
+.connn .chat_area{
+  
+  background-color: #fff;
+  margin-left: auto;
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 30%);
+
 }
 
 @media(max-width:991px){

@@ -150,7 +150,6 @@ class dd {
             $this->userEmail = $row['email'];
             $this->userPhone = $row['phoneNO'];
             $this->userName = $row['username'];
-            $this->userAddress = $row['userAddress'];
            
         }
         echo "
@@ -162,22 +161,24 @@ class dd {
         <div class = 'price'> <p>Ksh $this->productPrice &nbsp &nbsp &nbsp Quantity:$this->quantity</p></div>
         
         <p>Amount:</p>
-        <input type='number' name='quantity' id='quantity' value='1'  onchange='addPrice()'>
+        <input type='text' name='phone' id='productname' value='$this->productName'hidden>
+        <input type='text' name='phone' id='sender_id' value='$this->userID'hidden>
+        <input type='number' name='quantity' id='quantity' value='1'  onchange='addPrice()' min='1'required>
         <p>Confirm Phone<a style='color:red;'>*</a></p>
-        <input type='text' name='phone' id='phone' value='$this->userPhone'>
+        <input type='text' name='phone' id='phone' value='$this->userPhone'required>
         <p>Confirm Email<a style='color:red;'>*</a></p>
-        <input type='text' name='email' id='email' value='$this->userEmail'>
+        <input type='text' name='email' id='email' value='$this->userEmail'required>
         <p>Google Maps Location<a style='color:red;'>*</a></p>
-        <input type='text' name='address' id='address' value='$this->userAddress'>
+        <input type='text' name='address' id='address' value='$this->userAddress'required>
         <p>Payment Method<a style='color:red;'>*</a></p>
         <select name='payment'>
-        <option value='Mpesa'>Mpesa</option>
-        <option value='Bank'>Bank</option>
+        <option value='Ondelivery'>Payment On delivery</option>
+        
         </select>
         <p>Total Amount</p>
-        <input type='text' name='total' id='total' value='$this->productPrice'>
+        <input type='text' name='total' id='total' value='$this->productPrice' disabled>
         <p></p>
-        <input type='submit' value='Buy'>
+        <input class='button' type='submit' value='Send Request' >
         </form>
         </div>
         ";

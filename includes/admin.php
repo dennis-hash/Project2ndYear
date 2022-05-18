@@ -28,6 +28,7 @@
                 <li><a class="" href="index.php">Home</a></li>
                 <li><a class="" href="myAccount.php">My account</a></li>
                 <li><a class="" href="AddProducts.php">SELL</a></li>
+                <li><a class="add_article" href="../classes/admin.class.php">Add Article</a></li>
                 <li><a class="view_users" href="../classes/admin.class.php">View users</a></li>
                 <li><a class="view_prod" href="../classes/admin.class.php">View Products</a></li>
                 <li><a class="add_admin" href="../classes/admin.class.php">Add admin</a></li>
@@ -226,6 +227,38 @@
     });
     $('.register').load(" .register");
   }
+
+  $(".add_article").click(function(e){
+    e.preventDefault();
+    $.get('../classes/admin.class.php',{ action:'add_article'})
+    .done(function(data){
+    $('.allProducts').html(data);
+    });
+
+ });
+ function insert_article(){
+    
+    var file= $('#image')[0].files;
+    var formData = new FormData();
+    formData.append('image', file[0]);
+    formData.append('title', $('#title').val());
+    formData.append('content', $('#content').val());
+    formData.append('author', $('#author').val());
+    formData.append('date', $('#date').val());
+    formData.append('action', "insert_article");
+   
+    $.ajax({
+        url: '../classes/products.classes.php',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data){
+            $('.allProducts').html(data);
+            
+        }
+    });
+ }
 
   
 

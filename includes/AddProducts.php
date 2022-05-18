@@ -1,9 +1,11 @@
 <?php
 
 session_start();
+include_once "header.php";
 if(!isset($_SESSION['user'])){
     header('location: login.php?error=notLoggedIn ');
     exit();
+
 }
 //include 'header.php';
 /*if(isset($_POST['add'])){

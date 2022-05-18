@@ -30,11 +30,17 @@ class Upload {
         $this->prodSubCategory =  $_POST['subcategory'];
         $this->County = $_POST['county'];
         $this->prodSubCounty = $_POST['subcounty'];
-      
+        $this->title = $_POST['title'];
+        $this->content = $_POST['content'];
+        $this->author = $_POST['author'];
+        $this->created_at = $_POST['date'];
         
         if($_POST['edit']==='edit'){
             $this->editProducts($_POST['index']);
-        }else{
+        }elseif($_POST['action']==='insert_article'){
+            $this->insert_article();
+        }
+        else{
            
             $this->uploadProducts();   
         }
@@ -83,7 +89,7 @@ class Upload {
                     //resizing image
                    if(file_exists($this->destination )){
                        
-                        $filePath = $this->destination;
+                       /* $filePath = $this->destination;
                         $src = imagecreatefrompng($filePath);
                        
                        list($w, $h) = getimagesize($filePath);
@@ -118,7 +124,7 @@ class Upload {
                         
                      
                         imagedestroy($tmp);
-                        imagedestroy($src);
+                        imagedestroy($src);*/
                     }
                     
                    
@@ -174,9 +180,16 @@ class Upload {
         $query = "UPDATE `products` SET `productName`=:productName,`price`=:price,`imagePath`=:imagePath,`productDescription`=:productDescription,`prodQuantity`=:prodQuantity,`prodCategory`=:prodCategory,`prodSubCategory`=:prodSubCategory,`County`=:County,`SubCounty`=:SubCounty,`Title`=:Title WHERE `productID`=:productID";
         $stmt = $this->DB->prepare($query);
         $stmt->execute(array(':productName' => $this->prodName, ':price' => $this->prodPrice, ':imagePath' => $this->imagePath, ':productDescription' => $this->prodDescription, ':prodQuantity' => $this->prodQuantity, ':prodCategory' => $this->prodCategory, ':prodSubCategory' => $this->prodSubCategory, ':County' => $this->County, ':SubCounty' => $this->prodSubCounty, ':Title' => $this->prodTitle, ':productID' => $prodID));
-       // header("Location: ../includes/myAccount.php?page=1");
-        exit();
-        echo "<p style='color:green;'>Edited successfully </p>";
+       
+    }
+    public function insert_article(){
+        $this->imagepath=$this->uploadToFolder();
+        $query = "INSERT INTO `articles`(`title`, `content`, `author`, `created_at`,`imagepath`) VALUES (:title, :content, :author, :created_at, :imagepath)";
+        $stmt = $this->DB->prepare($query);
+        $stmt->execute(array(':title' => $this->title, ':content'=>$this->content,':author'=>$this->author,':created_at'=>$this->created_at ,':imagepath'=>$this->imagepath));
+        echo"(':title' => $this->title, ':content'=>$this->content,':author'=>$this->author,':created_at'=>$this->created_at ,':imagepath'=>$this->imagepath))";
+        echo "<h1>Article added successfully</h1>";
+       
     }
    
 }
